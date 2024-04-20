@@ -1,0 +1,48 @@
+.form-container {
+  //padding: 1rem 3rem;
+  height: 36rem;
+
+  mat-card-title {
+    text-align: center;
+    text-decoration: underline;
+  }
+}
+
+.detail-title {
+  margin: 1rem 0 .6rem 0 !important;
+}
+
+.form-title {
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: .8rem;
+}
+
+.mdc-card::after {
+  box-shadow: rgba(0, 0, 0, 0.2) 0 5px 5px -3px, rgba(0, 0, 0, 0.14) 0px 8px 10px 1px, rgba(0, 0, 0, 0.12) 0px 3px 14px 2px;
+}
+
+input {
+  font-size: 1rem;
+  color: #525252;
+  outline: none;
+  border: none
+}
+
+.form-field {
+  padding: .5rem 1rem;
+  font-size: 1rem;
+  font-weight: 500;
+  display: flex;
+  gap: 1rem;
+
+  label {
+    width: 6rem;
+  }
+}

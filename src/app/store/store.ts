@@ -1,19 +1,17 @@
 import {Action, ActionReducer} from "@ngrx/store";
 import {traineeReducer, TraineeState,} from "./reducers";
-// import {WeatherEffects} from "./effects";
-import {Trainee} from "../models/trainee";
 import {TraineeEffects} from "./effects";
 
 export interface AppState {
-  trainees: Trainee[];
+  trainee: TraineeState;
 }
 
 export interface AppStore {
-  trainees: ActionReducer<TraineeState, Action>;
+  trainee: ActionReducer<TraineeState, Action>;
 }
 
 export const appStore: AppStore = {
-  trainees: traineeReducer
+  trainee: traineeReducer
 }
 
 export const appEffects = [TraineeEffects];

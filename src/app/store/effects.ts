@@ -14,7 +14,7 @@ export class TraineeEffects {
       mergeMap(() =>
         this.traineeService.fetchData().pipe(
           // tap(console.log),
-          map((trainee: Trainee[]) => TraineesAction.loadTraineesSuccess({trainee})),
+          map((trainees: Trainee[]) => TraineesAction.loadTraineesSuccess({trainees})),
           catchError((error) =>
             of(TraineesAction.loadTraineesFailure({error: error.message}))
           )

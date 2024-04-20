@@ -1,0 +1,17 @@
+<div class="container">
+  <button mat-flat-button
+          routerLink=""
+          [class.selected]="selectedButton === 'Data'"
+          (click)="selectedButton = 'Data'">Data</button>
+  <button mat-flat-button
+          routerLink="analysis"
+          [class.selected]="selectedButton === 'Analysis'"
+          (click)="selectedButton = 'Analysis'">
+    Analysis
+  </button>
+  <button mat-flat-button
+          routerLink="monitor"
+          [class.selected]="selectedButton === 'Monitor'"
+          (click)="selectedButton = 'Monitor'">Monitor
+  </button>
+</div>

@@ -1,12 +1,12 @@
 export interface Trainee  {
-  ID: number,
-  Name: string,
-  Grade: string,
-  Email: string,
-  DateJoined: string,
-  Address: string,
-  City: string,
-  Country: string,
-  ZIP: number,
-  Subject: string
+  id: string,
+  name: string,
+  grade: string,
+  email: string,
+  date_joined: string,
+  address: string,
+  city: string,
+  country: string,
+  zip: string,
+  subject: string
 }

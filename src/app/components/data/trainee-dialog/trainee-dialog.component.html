@@ -1,0 +1,14 @@
+<h2 mat-dialog-title>Add new trainee</h2>
+<mat-dialog-content>
+  <form [formGroup]="formGroup" (ngSubmit)="saveTrainee()">
+    <mat-form-field>
+      <input matInput placeholder="Trainee name" formControlName="name" required>
+      <mat-error *ngIf="formGroup.get('name').errors?.required">
+        Trainee name is required.
+      </mat-error>
+    </mat-form-field>
+    <!-- Add form fields for other properties here -->
+    <button mat-button color="warn" (click)="onNoClick()">Cancel</button>
+    <button mat-button color="primary" type="submit">Save</button>
+  </form>
+</mat-dialog-content>

@@ -1,0 +1,42 @@
+.filter-container {
+  display: flex;
+  padding: 1rem 2rem;
+  height: 2rem;
+  align-items: center;
+
+  box-shadow: rgba(0, 0, 0, 0.2) 0 5px 5px -3px, rgba(0, 0, 0, 0.14) 0px 8px 10px 1px, rgba(0, 0, 0, 0.12) 0px 3px 14px 2px;
+
+  & > :first-child {
+    flex: 0 70%;
+  }
+
+  & > :last-child {
+    flex: 0 30%;
+  }
+}
+
+.form {
+  label {
+    font-size: 1.1rem;
+    font-weight: 500;
+    padding-right: 1rem;
+  }
+
+  input {
+    height: 2rem;
+    border: 1px solid #000;
+    border-radius: .3rem;
+    padding: 0 1rem;
+  }
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 2rem;
+
+  button {
+    width: 6rem;
+  }
+}

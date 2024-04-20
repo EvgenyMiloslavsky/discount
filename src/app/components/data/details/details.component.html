@@ -1,0 +1,59 @@
+<mat-card class="form-container">
+  <mat-card-title class="detail-title">Details:</mat-card-title>
+  <mat-card-content>
+    <form [formGroup]="traineeForm" (ngSubmit)="onSubmit()">
+      <div class="form-field">
+        <label>ID:</label>
+        <input matInput type="text" formControlName="id">
+      </div>
+
+      <div class="form-field">
+        <label>Name:</label>
+        <input matInput type="text" formControlName="name">
+      </div>
+
+
+      <div class="form-field">
+        <label>Grade:</label>
+        <input matInput type="text" formControlName="grade">
+      </div>
+
+
+      <div class="form-field">
+        <label>Email:</label>
+        <input matInput type="text" formControlName="email">
+      </div>
+
+
+      <div class="form-field">
+        <label>DateJoined:</label>
+        <input matInput type="text" formControlName="date_joined">
+      </div>
+
+      <div class="form-field">
+        <label>Address:</label>
+        <input matInput type="text" formControlName="address">
+      </div>
+
+      <div class="form-field">
+        <label>City:</label>
+        <input matInput type="text" formControlName="city">
+      </div>
+
+      <div class="form-field">
+        <label> Country:</label>
+        <input matInput type="text" formControlName="country">
+      </div>
+
+      <div class="form-field">
+        <label>ZIP:</label>
+        <input matInput type="text" formControlName="zip">
+      </div>
+
+      <div class="form-field">
+        <label>Subject:</label>
+        <input matInput type="text" formControlName="subject">
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

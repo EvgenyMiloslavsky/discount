@@ -1,0 +1,17 @@
+<div class="filter-container">
+  <div class="form">
+    <label class="form__label"> Filter:</label>
+    <input class="form__input" type="text">
+  </div>
+  <div class="buttons">
+    <button mat-button mat-raised-button
+            (click)="openAddTraineeDialog()"
+    >Add
+    </button>
+    <button mat-button mat-raised-button
+            [disabled]="onDisable"
+            (click)="traineeRemove()"
+    >Remove
+    </button>
+  </div>
+</div>

@@ -7,13 +7,15 @@ export interface TraineeState {
   loading: boolean;
   filter: string;
   error: string;
+  selectedTraineesId: string;
 }
 
 export const initialState: TraineeState = {
   trainees: [],
   loading: false,
   filter: '',
-  error: ''
+  error: '',
+  selectedTraineesId: ''
 };
 
 export const traineeReducer = createReducer(
@@ -21,14 +23,16 @@ export const traineeReducer = createReducer(
 
   on(TraineesAction.loadTrainees, state => ({...state, loading: true})),
 
-  on(TraineesAction.loadTraineesSuccess, (state, {trainee  }) => ({...state, ...trainee, loading: false, filter: ''})),
+  on(TraineesAction.loadTraineesSuccess, (state, {trainees}) => ({...state, trainees, loading: false})),
 
   on(TraineesAction.loadTraineesFailure, (state, {error}) => ({...state, error, loading: false})),
 
-  // on(WeatherActions.setLocalizedName, (state, {localizedName}) => ({...state, LocalizedName: localizedName}))
+  on(TraineesAction.setTraineeId, (state, {selectedTraineesId}) => ({...state, selectedTraineesId})),
 
-  // on(WeatherActions.addWeather, (state, {weather}) => ({...state, weather: [...state.weather, weather]})),
-
+  on(TraineesAction.removeTrainee, (state, {id}) => ({
+    ...state,
+    trainees: state.trainees.filter(trainee => trainee.id !== id)
+  }))
   /*on(WeatherActions.updateWeather, (state, {weather}) => ({
     ...state,
     weather: state.TemperatureValue
