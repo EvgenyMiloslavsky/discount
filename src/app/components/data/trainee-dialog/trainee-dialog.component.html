@@ -1,14 +1,78 @@
-<h2 mat-dialog-title>Add new trainee</h2>
+<h2 mat-dialog-title class="dialog-title">Add new trainee</h2>
 <mat-dialog-content>
-  <form [formGroup]="formGroup" (ngSubmit)="saveTrainee()">
+  <form [formGroup]="formGroup" (ngSubmit)="saveTrainee()" class="grid-container">
+
+    <mat-form-field>
+      <input matInput placeholder="Trainee ID" formControlName="id" required>
+      <mat-error *ngIf="formGroup.get('id').errors?.required">
+        Trainee name is required.
+      </mat-error>
+    </mat-form-field>
+
     <mat-form-field>
       <input matInput placeholder="Trainee name" formControlName="name" required>
       <mat-error *ngIf="formGroup.get('name').errors?.required">
         Trainee name is required.
       </mat-error>
     </mat-form-field>
-    <!-- Add form fields for other properties here -->
-    <button mat-button color="warn" (click)="onNoClick()">Cancel</button>
-    <button mat-button color="primary" type="submit">Save</button>
+
+    <mat-form-field>
+      <input matInput placeholder="Trainee grade" formControlName="grade" required>
+      <mat-error *ngIf="formGroup.get('grade').errors?.required">
+        Trainee name is required.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Trainee email" formControlName="email" required>
+      <mat-error *ngIf="formGroup.get('email').errors?.required">
+        Trainee name is required.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Date joined" formControlName="date_joined" required>
+      <mat-error *ngIf="formGroup.get('date_joined').errors?.required">
+        Trainee name is required.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Address" formControlName="address" required>
+      <mat-error *ngIf="formGroup.get('address').errors?.required">
+        Trainee name is required.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="City" formControlName="city" required>
+      <mat-error *ngIf="formGroup.get('city').errors?.required">
+        Trainee name is required.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Country" formControlName="country" required>
+      <mat-error *ngIf="formGroup.get('country').errors?.required">
+        Trainee name is required.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="ZIP" formControlName="zip" required>
+      <mat-error *ngIf="formGroup.get('zip').errors?.required">
+        Trainee name is required.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Subject" formControlName="subject" required>
+      <mat-error *ngIf="formGroup.get('subject').errors?.required">
+        Trainee name is required.
+      </mat-error>
+    </mat-form-field>
+
+    <button mat-button mat-raised-button color="accent" (click)="onNoClick()">Cancel</button>
+    <button mat-button mat-raised-button type="submit">Save</button>
   </form>
 </mat-dialog-content>

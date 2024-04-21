@@ -32,11 +32,14 @@ export const traineeReducer = createReducer(
   on(TraineesAction.removeTrainee, (state, {id}) => ({
     ...state,
     trainees: state.trainees.filter(trainee => trainee.id !== id)
-  }))
-  /*on(WeatherActions.updateWeather, (state, {weather}) => ({
-    ...state,
-    weather: state.TemperatureValue
-  })),*/
+  })),
+  on(TraineesAction.addTrainee, (state, {trainee}) => ({...state, trainees: [trainee, ...state.trainees]})),
+  on(TraineesAction.setFilter, (state, {filter}) => ({...state, filter: filter}))
+/*on(WeatherActions.updateWeather, (state, {weather}) => ({
+  ...state,
+  weather: state.TemperatureValue
+})),*/
 
-  // on(WeatherActions.deleteWeather, (state, {id}) => ({...state, weather: state.weather.filter(t => t.id !== id)})),
-);
+// on(WeatherActions.deleteWeather, (state, {id}) => ({...state, weather: state.weather.filter(t => t.id !== id)})),
+)
+;

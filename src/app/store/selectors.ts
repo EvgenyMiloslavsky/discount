@@ -26,7 +26,7 @@ export const getSelectedTrainee = createSelector(
   (state: TraineeState) => state.trainees.find(tr => {
     if (state && state.selectedTraineesId) {
       return tr.id === state.selectedTraineesId
-    }else{
+    } else {
       return undefined;
     }
   })
@@ -35,4 +35,9 @@ export const getSelectedTrainee = createSelector(
 export const getTraineeId = createSelector(
   selectTraineeFeature,
   (state: TraineeState) => state.selectedTraineesId
+)
+
+export const getFilter = createSelector(
+  selectTraineeFeature,
+  (state: TraineeState) => state.filter
 )

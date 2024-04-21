@@ -20,8 +20,16 @@ export class TraineeDialogComponent {
     private formBuilder: FormBuilder) {
 
     this.formGroup = formBuilder.group({
+      id: ['', Validators.required],
       name: ['', Validators.required],
-      // Add all other properties of a Trainee here as form controls
+      grade: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      date_joined: ['', Validators.required],
+      address: ['', Validators.required],
+      city: ['', Validators.required],
+      country: ['', Validators.required],
+      zip: ['', Validators.required],
+      subject: ['', Validators.required]
     });
   }
 
