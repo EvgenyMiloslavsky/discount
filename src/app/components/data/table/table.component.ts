@@ -35,7 +35,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
         this.searchKey = key;
         this.searchValue = value;
         this.dataSource.filter = this.searchValue.trim().toLowerCase();
-        console.log(`Updated searchKey to '${this.searchKey}' and searchValue to '${this.searchValue}'`);
+        // console.log(`Updated searchKey to '${this.searchKey}' and searchValue to '${this.searchValue}'`);
       } else {
         this.dataSource.filter = "";
       }
@@ -46,8 +46,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
         this.dataSource.data = tr;
         // this.dataSource.filter = this.searchValue.trim().toLowerCase();
 
-        console.log("Search value", this.searchValue)
-        console.log(`Updated dataSource with data:`, tr, `and filter: '${this.dataSource.filter}'`);
+       /* console.log("Search value", this.searchValue)
+        console.log(`Updated dataSource with data:`, tr, `and filter: '${this.dataSource.filter}'`);*/
       }
     ));
   }
@@ -103,12 +103,12 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
             break;
         }
 
-        console.log(`Set up paginator and custom filter predicate for dataSource`);
-      }, 8000
+        // console.log(`Set up paginator and custom filter predicate for dataSource`);
+      }, 0
     )
 
     setTimeout(() => {
       this.dataSource.paginator = this.paginator;
-    }, 10)
+    }, 100)
   }
 }
