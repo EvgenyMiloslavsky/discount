@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MatButtonModule} from "@angular/material/button";
 import {Store} from "@ngrx/store";
-import {debounceTime, distinctUntilChanged, Observable, of, Subscription, switchMap} from "rxjs";
+import {distinctUntilChanged, Observable, of, Subscription, switchMap} from "rxjs";
 import {getFilter, getTraineeId} from "../../../store/selectors";
 import {removeTrainee, setFilter, setTraineeId} from "../../../store/actions";
 import {MatDialog, MatDialogModule} from "@angular/material/dialog";
@@ -48,7 +48,7 @@ export class FilterComponent implements OnInit, OnDestroy {
     this.filter$ = store.select(getFilter);
 
     this.searchControl.valueChanges.pipe(
-      debounceTime(500),
+      // debounceTime(500),
       distinctUntilChanged(),
       switchMap(query => this.doSearch(query))
     ).subscribe(() => {
@@ -84,14 +84,19 @@ export class FilterComponent implements OnInit, OnDestroy {
 
   doSearch(query: string): Observable<any> {
     const prefix = this.search.getPrefix(query);
+    let prefixAndNumber = ''
     if (prefix === 'id') {
       const num = this.search.extractNumberFromString(query);
-      const prefixAndNumber = `${prefix}:${num}`;
-      this.searchControl.setValue(prefixAndNumber)
+      prefixAndNumber = `${prefix}:${num}`;
+      // this.searchControl.setValue(prefixAndNumber)
       this.store.dispatch(setFilter({filter: num ? prefixAndNumber : ''}))
     } else if (prefix === 'date') {
+
       console.log("DATE", prefix)
     } else if (prefix === 'grade') {
+      const ran = this.search.extractRangeFromString(query);
+      prefixAndNumber = `${prefix}:${ran}`;
+      this.store.dispatch(setFilter({filter: ran ? prefixAndNumber : ''}))
       console.log("GRADE", prefix)
     }
     return of(null);

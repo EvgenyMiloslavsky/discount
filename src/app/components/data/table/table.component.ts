@@ -37,14 +37,14 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
         this.dataSource.filter = this.searchValue.trim().toLowerCase();
         console.log(`Updated searchKey to '${this.searchKey}' and searchValue to '${this.searchValue}'`);
       } else {
-        this.searchValue = '';
+        this.dataSource.filter = "";
       }
     }));
 
     this.subscribers.push(this.store.select(selectAllTrainees).subscribe(
       tr => {
         this.dataSource.data = tr;
-        this.dataSource.filter = this.searchValue.trim().toLowerCase();
+        // this.dataSource.filter = this.searchValue.trim().toLowerCase();
 
         console.log("Search value", this.searchValue)
         console.log(`Updated dataSource with data:`, tr, `and filter: '${this.dataSource.filter}'`);
@@ -69,26 +69,46 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     };
   }
 
- /* createGradeFilterPredicate<T>(searchKey: keyof T): (data: T, filter: string) => boolean {
+  createGradeFilterPredicate<T>(searchKey: keyof T): (data: T, filter: string) => boolean {
     return (data: T, filter: string) => {
-      const [lower, upper] = filter.split('-').map(Number);
-      const grade = Number(data['grade']);
+      let lower = -Infinity, upper = Infinity;
+      const lowerMatch = filter.match(/>(\d+)/);
+      if (lowerMatch) {
+        lower = Number(lowerMatch[1]);
+      }
+      const upperMatch = filter.match(/<(\d+)/);
+      if (upperMatch) {
+        upper = Number(upperMatch[1]);
+      }
+
+      const grade = Number(data[searchKey as keyof T]);
       return grade >= lower && grade <= upper;
     }
-  }*/
+  }
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-        const customFilterPredicate = this.createIdFilterPredicate<any>(this.searchKey);
-        this.dataSource.filterPredicate = (data, filter) => customFilterPredicate(data, filter);
+        switch (this.searchKey) {
+          case 'id':
+            const customFilterPredicate = this.createIdFilterPredicate<any>(this.searchKey);
+            this.dataSource.filterPredicate = (data, filter) => customFilterPredicate(data, filter);
+            break;
+          case 'grade':
+            const customGradeFilterPredicate = this.createGradeFilterPredicate<any>(this.searchKey);
+            this.dataSource.filterPredicate = (data, filter) => customGradeFilterPredicate(data, filter);
+            console.log("Grade", this.searchKey);
+            break;
+          case 'Date':
+            console.log("Date", this.searchKey);
+            break;
+        }
 
         console.log(`Set up paginator and custom filter predicate for dataSource`);
-      }, 4000
+      }, 8000
     )
 
     setTimeout(() => {
       this.dataSource.paginator = this.paginator;
-
-    }, 100)
+    }, 10)
   }
 }
