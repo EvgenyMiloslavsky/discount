@@ -13,7 +13,12 @@
             (click)="traineeRemove()"
     >Remove
     </button>
+    <button mat-button mat-raised-button
+            [hidden]="!(viewButton$ | async)"
+            (click)="updateDetails()"
+    >Update
+    </button>
   </div>
 </div>
 
-{{ searchResults$ | async}}
+{{ viewButton$ | async}}

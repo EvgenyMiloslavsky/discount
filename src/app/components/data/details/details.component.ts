@@ -4,9 +4,12 @@ import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatCardModule} from "@angular/material/card";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
-import {Subscription} from "rxjs";
+import {catchError, distinctUntilChanged, map, Subscription, tap, throwError} from "rxjs";
 import {Store} from "@ngrx/store";
 import {getSelectedTrainee} from "../../../store/selectors";
+import {Trainee} from "../../../models/trainee";
+import {TraineeService} from "../../../services/trainee.service";
+import {updateTrainee} from "../../../store/actions";
 
 @Component({
   selector: 'app-details',
@@ -18,7 +21,8 @@ import {getSelectedTrainee} from "../../../store/selectors";
 })
 export class DetailsComponent implements OnInit, OnDestroy {
 
-  subscription!: Subscription;
+  subscribers: Subscription[] = [];
+  currentTrainee: Trainee = null;
 
   traineeForm = this.fb.group({
     id: ['', Validators.required],
@@ -30,18 +34,49 @@ export class DetailsComponent implements OnInit, OnDestroy {
     city: ['', Validators.required],
     country: ['', Validators.required],
     zip: ['', Validators.required],
-    subject: ['', Validators.required]
-  });
+    subject: ['', Validators.required],
+  }, {updateOn: "change"});
 
-  constructor(private fb: FormBuilder, private store: Store) {
+  constructor(
+    private fb: FormBuilder,
+    private store: Store,
+    private traineeService: TraineeService) {
+
+    this.subscribers.push(this.traineeForm.valueChanges.pipe(
+      tap(() => {
+        console.log("ValueChanges")
+      }),
+      map(() => {
+        if (this.currentTrainee) {
+          const formValue = this.traineeForm.value;
+          return Object.keys(formValue).some(key =>
+            formValue[key] != this.currentTrainee[key]);
+        } else {
+          return false;
+        }
+      }),
+      distinctUntilChanged(),
+    ).subscribe(res => {
+      this.traineeService.onViewButton(res)
+    }));
+
+    this.subscribers.push(this.traineeService.onUpdateButtonClicked$.subscribe(() => {
+      this.updateTrainee();
+    }));
   }
 
   ngOnInit() {
-    this.subscription = this.store.select(getSelectedTrainee).subscribe(tr => {
+    this.subscribers.push(this.store.select(getSelectedTrainee).pipe(
+      catchError(err => {
+        console.error(err);
+        return throwError(err);
+      })
+    ).subscribe(tr => {
       if (tr) {
         this.traineeForm.setValue({...tr});
-      }else{
-        this.traineeForm.setValue({
+        this.currentTrainee = {...tr}
+      } else {
+        this.traineeForm.reset({
           id: '',
           name: '',
           grade: '',
@@ -54,14 +89,22 @@ export class DetailsComponent implements OnInit, OnDestroy {
           subject: ''
         });
       }
-    })
+    }))
   }
 
-  onSubmit() {
-    console.log(this.traineeForm.value);
+  updateTrainee() {
+    if (this.traineeForm.valid) {
+      const newTrainee = {...this.traineeForm.value as Trainee};
+      this.store.dispatch(updateTrainee({trainee: newTrainee, id: this.traineeForm.value.id}));
+      this.traineeService.onViewButton(false);
+      this.currentTrainee = newTrainee;
+      this.traineeForm.setValue(newTrainee);
+    } else {
+      this.traineeForm.markAllAsTouched();
+    }
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.subscribers.forEach(sub => sub.unsubscribe());
   }
 }

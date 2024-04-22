@@ -8,3 +8,4 @@ export const setTraineeId = createAction('[Current Trainee Id] Set Trainee Id', 
 export const removeTrainee = createAction('[Trainee] Remove Trainee', props<{ id: string }>());
 export const addTrainee = createAction('[Trainee] Add Trainee', props<{ trainee: Trainee }>());
 export const setFilter = createAction('[Filter] Set Filter', props<{ filter: string }>());
+export const updateTrainee = createAction('[Trainee] Update Trainee', props<{ trainee: Trainee, id: string }>());

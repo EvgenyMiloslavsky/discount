@@ -1,7 +1,7 @@
 <mat-card class="form-container">
   <mat-card-title class="detail-title">Details:</mat-card-title>
   <mat-card-content>
-    <form [formGroup]="traineeForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="traineeForm">
       <div class="form-field">
         <label>ID:</label>
         <input matInput type="text" formControlName="id">
@@ -9,14 +9,18 @@
 
       <div class="form-field">
         <label>Name:</label>
-        <input matInput type="text" formControlName="name">
+        <div>
+          <input matInput type="text" formControlName="name">
+          <mat-error *ngIf="traineeForm.get('name').errors && traineeForm.get('name')
+        .touched">This field is required
+          </mat-error>
+        </div>
       </div>
 
 
       <div class="form-field">
         <label>Grade:</label>
-        <input matInput type="text" formControlName="grade">
-      </div>
+        <input matInput type="text" formControlName="grade"></div>
 
 
       <div class="form-field">

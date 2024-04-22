@@ -8,6 +8,7 @@ import {getFilter, selectAllTrainees} from "../../../store/selectors";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatPaginator, MatPaginatorModule} from "@angular/material/paginator";
 import {setTraineeId} from "../../../store/actions";
+import {SearchService} from "../../../services/search.service";
 
 @Component({
   selector: 'app-table',
@@ -28,18 +29,20 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   displayedColumns: string[] = ['id', 'name', 'date', 'grade', 'subject'];
   dataSource: MatTableDataSource<Trainee> = new MatTableDataSource<Trainee>();
 
-  constructor(private store: Store,) {
+  constructor(private store: Store, private searchService: SearchService) {
     this.subscribers.push(this.store.select(getFilter).subscribe(fi => {
       if (fi) {
         const [key, value] = fi.split(':');
         this.searchKey = key;
         this.searchValue = value;
-        this.filterPredicates();
-        this.dataSource.filter = this.searchValue.trim().toLowerCase();
-        console.log("SER", this.searchValue)
-        console.log("===>", (this.searchValue.replace(/\D/g, '')) === this.searchValue)
-        console.log(`Updated searchKey to '${this.searchKey}' and searchValue to '${this.searchValue}'`);
-
+        if (this.searchValue) {
+          this.filterPredicates();
+          this.dataSource.filter = this.searchValue.trim().toLowerCase();
+          console.log("SER", this.searchValue)
+        }        /* console.log("SER", this.searchValue)
+         console.log("===>", (this.searchValue.replace(/\D/g, '')) === this.searchValue)
+         console.log(`Updated searchKey to '${this.searchKey}' and searchValue to '${this.searchValue}'`);
+ */
       } else {
         this.dataSource.filter = "";
       }
@@ -68,29 +71,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store.dispatch(setTraineeId({selectedTraineesId: id}));
   }
 
-  createIdFilterPredicate<T>(searchKey: keyof T): (data: T, filter: string) => boolean {
-    return (data: T, filter: string) => {
-      return data[searchKey] ? data[searchKey].toString().toLowerCase().includes(filter.toLowerCase()) : false;
-    };
-  }
-
-  createGradeFilterPredicate<T>(searchKey: keyof T): (data: T, filter: string) => boolean {
-    return (data: T, filter: string) => {
-      let lower = -Infinity, upper = Infinity;
-      const lowerMatch = filter.match(/>(\d+)/);
-      if (lowerMatch) {
-        lower = Number(lowerMatch[1]);
-      }
-      const upperMatch = filter.match(/<(\d+)/);
-      if (upperMatch) {
-        upper = Number(upperMatch[1]);
-      }
-
-      const grade = Number(data[searchKey as keyof T]);
-      return grade >= lower && grade <= upper;
-    }
-  }
-
   ngAfterViewInit(): void {
     setTimeout(() => {
       this.dataSource.paginator = this.paginator;
@@ -100,24 +80,25 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   filterPredicates() {
     switch (this.searchKey) {
       case 'id':
-        const customFilterPredicate = this.createIdFilterPredicate<any>(this.searchKey);
+        const customFilterPredicate = this.searchService.createIdFilterPredicate<any>(this.searchKey);
         this.dataSource.filterPredicate = (data, filter) => customFilterPredicate(data, filter);
         break;
       case 'grade':
         if ((this.searchValue.replace(/\D/g, '')) === this.searchValue) {
-          const customFilterPredicate = this.createIdFilterPredicate<any>(this.searchKey);
+          const customFilterPredicate = this.searchService.createIdFilterPredicate<any>(this.searchKey);
           this.dataSource.filterPredicate = (data, filter) => customFilterPredicate(data, filter);
         } else {
-          const customGradeFilterPredicate = this.createGradeFilterPredicate<any>(this.searchKey);
+          const customGradeFilterPredicate = this.searchService.createGradeFilterPredicate<any>(this.searchKey);
           this.dataSource.filterPredicate = (data, filter) => customGradeFilterPredicate(data, filter);
         }
-        console.log("Grade", this.searchKey);
+        // console.log("Grade", this.searchKey);
         break;
       case 'date':
+        debugger
         if (this.searchValue.includes("<") || this.searchValue.includes(">")) {
-          const customFilterPredicate = this.createIdFilterPredicate<any>(this.searchKey);
+          const customFilterPredicate = this.searchService.createDateFilterPredicate<any>(this.searchKey);
           this.dataSource.filterPredicate = (data, filter) => customFilterPredicate(data, filter);
-          console.log("Date", this.searchKey);
+          // console.log("Date", this.searchKey);
         }
         break;
     }
