@@ -34,15 +34,15 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
         const [key, value] = fi.split(':');
         this.searchKey = key;
         this.searchValue = value;
+        this.filterPredicates();
         this.dataSource.filter = this.searchValue.trim().toLowerCase();
         console.log("SER", this.searchValue)
         console.log("===>", (this.searchValue.replace(/\D/g, '')) === this.searchValue)
         console.log(`Updated searchKey to '${this.searchKey}' and searchValue to '${this.searchValue}'`);
 
-        this.filterPredicates();
-      } /*else {
+      } else {
         this.dataSource.filter = "";
-      }*/
+      }
     }));
 
     this.subscribers.push(this.store.select(selectAllTrainees).subscribe(
