@@ -113,8 +113,12 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
         }
         console.log("Grade", this.searchKey);
         break;
-      case 'Date':
-        console.log("Date", this.searchKey);
+      case 'date':
+        if (this.searchValue.includes("<") || this.searchValue.includes(">")) {
+          const customFilterPredicate = this.createIdFilterPredicate<any>(this.searchKey);
+          this.dataSource.filterPredicate = (data, filter) => customFilterPredicate(data, filter);
+          console.log("Date", this.searchKey);
+        }
         break;
     }
   }

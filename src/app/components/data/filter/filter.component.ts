@@ -88,13 +88,13 @@ export class FilterComponent implements OnInit, OnDestroy {
     if (prefix === 'id') {
       const num = this.search.extractNumberFromString(query);
       prefixAndNumber = `${prefix}:${num}`;
-      // this.searchControl.setValue(prefixAndNumber)
       this.store.dispatch(setFilter({filter: num ? prefixAndNumber : ''}))
     } else if (prefix === 'date') {
-
+      const date = this.search.extractRangeDateFromString(query);
+      prefixAndNumber = `${prefix}:${date}`;
+      this.store.dispatch(setFilter({filter: date ? prefixAndNumber : ''}))
       console.log("DATE", prefix)
     } else if (prefix === 'grade') {
-      debugger
       const ran = this.search.extractRangeFromString(query);
       prefixAndNumber = `${prefix}:${ran}`;
       this.store.dispatch(setFilter({filter: ran ? prefixAndNumber : ''}))
