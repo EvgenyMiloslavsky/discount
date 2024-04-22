@@ -38,6 +38,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
         console.log("SER", this.searchValue)
         console.log("===>", (this.searchValue.replace(/\D/g, '')) === this.searchValue)
         console.log(`Updated searchKey to '${this.searchKey}' and searchValue to '${this.searchValue}'`);
+
+        this.filterPredicates();
       } /*else {
         this.dataSource.filter = "";
       }*/
@@ -62,7 +64,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   clickedRow(id: string) {
-    this.store.dispatch(setTraineeId({selectedTraineesId: id}))
+    this.selectedRowId = id;
+    this.store.dispatch(setTraineeId({selectedTraineesId: id}));
   }
 
   createIdFilterPredicate<T>(searchKey: keyof T): (data: T, filter: string) => boolean {
@@ -89,6 +92,12 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.dataSource.paginator = this.paginator;
+    }, 30)
+  }
+
+  filterPredicates() {
     switch (this.searchKey) {
       case 'id':
         const customFilterPredicate = this.createIdFilterPredicate<any>(this.searchKey);
@@ -108,11 +117,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
         console.log("Date", this.searchKey);
         break;
     }
-    // console.log(`Set up paginator and custom filter predicate for dataSource`);
 
-
-    setTimeout(() => {
-      this.dataSource.paginator = this.paginator;
-    }, 100)
   }
 }

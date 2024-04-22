@@ -1,4 +1,6 @@
 import {Injectable} from '@angular/core';
+import {MatTableDataSource} from "@angular/material/table";
+import {Trainee} from "../models/trainee";
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +35,4 @@ export class SearchService {
       return numberMatch ? numberMatch[0] : '';
     }
   }
-
-
 }
