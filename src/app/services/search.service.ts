@@ -25,7 +25,13 @@ export class SearchService {
 
   extractRangeFromString(input: string): string {
     const match = input.match(/(<|>)(\d+)/g);
-    return match ? match.join(' ') : '';
+
+    if (match) {
+      return match.join(' ');
+    } else {
+      const numberMatch = input.match(/\d+/);
+      return numberMatch ? numberMatch[0] : '';
+    }
   }
 
 

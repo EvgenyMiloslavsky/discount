@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MatButtonModule} from "@angular/material/button";
 import {Store} from "@ngrx/store";
-import {distinctUntilChanged, Observable, of, Subscription, switchMap} from "rxjs";
+import {debounceTime, distinctUntilChanged, Observable, of, Subscription, switchMap} from "rxjs";
 import {getFilter, getTraineeId} from "../../../store/selectors";
 import {removeTrainee, setFilter, setTraineeId} from "../../../store/actions";
 import {MatDialog, MatDialogModule} from "@angular/material/dialog";
@@ -48,7 +48,7 @@ export class FilterComponent implements OnInit, OnDestroy {
     this.filter$ = store.select(getFilter);
 
     this.searchControl.valueChanges.pipe(
-      // debounceTime(500),
+      debounceTime(50),
       distinctUntilChanged(),
       switchMap(query => this.doSearch(query))
     ).subscribe(() => {
@@ -94,6 +94,7 @@ export class FilterComponent implements OnInit, OnDestroy {
 
       console.log("DATE", prefix)
     } else if (prefix === 'grade') {
+      debugger
       const ran = this.search.extractRangeFromString(query);
       prefixAndNumber = `${prefix}:${ran}`;
       this.store.dispatch(setFilter({filter: ran ? prefixAndNumber : ''}))
