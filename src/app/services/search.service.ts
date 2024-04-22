@@ -1,6 +1,4 @@
 import {Injectable} from '@angular/core';
-import {MatTableDataSource} from "@angular/material/table";
-import {Trainee} from "../models/trainee";
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +25,6 @@ export class SearchService {
 
   extractRangeFromString(input: string): string {
     const match = input.match(/(<|>)(\d+)/g);
-
     if (match) {
       return match.join(' ');
     } else {

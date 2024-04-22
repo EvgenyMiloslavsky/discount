@@ -117,6 +117,5 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
         console.log("Date", this.searchKey);
         break;
     }
-
   }
 }
