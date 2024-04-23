@@ -14,11 +14,10 @@
     >Remove
     </button>
     <button mat-button mat-raised-button
-            [hidden]="!(viewButton$ | async)"
+            [disabled]="!(viewButton$ | async)"
             (click)="updateDetails()"
     >Update
     </button>
   </div>
 </div>
-
-{{ viewButton$ | async}}
+{{viewButton$ | async}}

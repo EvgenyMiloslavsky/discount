@@ -47,10 +47,13 @@ export class DetailsComponent implements OnInit, OnDestroy {
         console.log("ValueChanges")
       }),
       map(() => {
+        debugger
         if (this.currentTrainee) {
           const formValue = this.traineeForm.value;
-          return Object.keys(formValue).some(key =>
-            formValue[key] != this.currentTrainee[key]);
+          const isEqual = Object.keys(formValue).some(key =>
+            formValue[key].toString() === this.currentTrainee[key].toString());
+          console.log(isEqual, formValue, this.currentTrainee);
+          return isEqual
         } else {
           return false;
         }
@@ -72,9 +75,12 @@ export class DetailsComponent implements OnInit, OnDestroy {
         return throwError(err);
       })
     ).subscribe(tr => {
+
+      console.log("Change trainee")
       if (tr) {
         this.traineeForm.setValue({...tr});
-        this.currentTrainee = {...tr}
+        this.currentTrainee = {...tr};
+        console.log("===>",this.currentTrainee, this.currentTrainee);
       } else {
         this.traineeForm.reset({
           id: '',
@@ -98,7 +104,8 @@ export class DetailsComponent implements OnInit, OnDestroy {
       this.store.dispatch(updateTrainee({trainee: newTrainee, id: this.traineeForm.value.id}));
       this.traineeService.onViewButton(false);
       this.currentTrainee = newTrainee;
-      this.traineeForm.setValue(newTrainee);
+      this.traineeForm.setValue(null);
+      // this.traineeForm.setValue(newTrainee);
     } else {
       this.traineeForm.markAllAsTouched();
     }
