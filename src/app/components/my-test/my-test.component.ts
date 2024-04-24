@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {Chart1Component} from "../analysis/charts/chart1/chart1.component";
+import {ChartComponent} from "../analysis/charts/chart/chart.component";
 
 @Component({
   selector: 'app-my-test',
   standalone: true,
-  imports: [CommonModule, Chart1Component],
+  imports: [CommonModule, ChartComponent],
   templateUrl: './my-test.component.html',
   styleUrls: ['./my-test.component.scss']
 })

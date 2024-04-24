@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddTraineeDialogComponent } from './trainee-dialog.component';
+import {TraineeDialogComponent } from './trainee-dialog.component';
 
 describe('AddTraineeDialogComponent', () => {
-  let component: AddTraineeDialogComponent;
-  let fixture: ComponentFixture<AddTraineeDialogComponent>;
+  let component: TraineeDialogComponent;
+  let fixture: ComponentFixture<TraineeDialogComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AddTraineeDialogComponent]
+      imports: [TraineeDialogComponent]
     });
-    fixture = TestBed.createComponent(AddTraineeDialogComponent);
+    fixture = TestBed.createComponent(TraineeDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

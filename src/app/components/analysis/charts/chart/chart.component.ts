@@ -3,13 +3,13 @@ import {CommonModule} from '@angular/common';
 import {BarChartModule} from "@swimlane/ngx-charts";
 
 @Component({
-  selector: 'app-chart1',
+  selector: 'app-chart',
   standalone: true,
   imports: [CommonModule, BarChartModule],
-  templateUrl: './chart1.component.html',
-  styleUrls: ['./chart1.component.scss']
+  templateUrl: './chart.component.html',
+  styleUrls: ['./chart.component.scss']
 })
-export class Chart1Component implements OnDestroy{
+export class ChartComponent implements OnDestroy{
   @Input() public chartData: any[] = [];
   @Input() public index: number = 0;
 
