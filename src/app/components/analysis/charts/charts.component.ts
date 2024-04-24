@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {DragDropModule} from "@angular/cdk/drag-drop";
 import {ChartComponent} from "./chart/chart.component";
 import {MatButtonModule} from "@angular/material/button";
 import {SearchService} from "../../../services/search.service";
-import {filter, map, Observable, tap} from "rxjs";
+import {filter, map, Observable, Subscription, tap} from "rxjs";
 import {Trainee} from "../../../models/trainee";
 
 @Component({
@@ -19,7 +19,7 @@ import {Trainee} from "../../../models/trainee";
   templateUrl: './charts.component.html',
   styleUrls: ['./charts.component.scss']
 })
-export class ChartsComponent implements OnInit{
+export class ChartsComponent implements OnInit, OnDestroy {
   charts = [
     {
       type: 'chart 1', description: 'Grades average over time for students with ID:', id: 1, data: [
@@ -39,18 +39,18 @@ export class ChartsComponent implements OnInit{
     },
     {
       type: 'chart 2', description: 'Grades average per subject', data: [
-       /* {
-          "name": "Data 4",
-          "value": 89
-        },
-        {
-          "name": "Data 5",
-          "value": 50
-        },
-        {
-          "name": "Data 6",
-          "value": 72
-        }*/
+        /* {
+           "name": "Data 4",
+           "value": 89
+         },
+         {
+           "name": "Data 5",
+           "value": 50
+         },
+         {
+           "name": "Data 6",
+           "value": 72
+         }*/
       ]
     },
 
@@ -77,6 +77,8 @@ export class ChartsComponent implements OnInit{
 
   traineeById$: Observable<Trainee[] | null>;
   traineeBySubject$: Observable<Trainee[] | null>;
+  draggedIsButton: boolean = false;
+  subscribers: Subscription[] = [];
 
   constructor(private searchService: SearchService,) {
     this.traineeById$ = this.searchService.traineesById$
@@ -84,53 +86,53 @@ export class ChartsComponent implements OnInit{
   }
 
   public ngOnInit(): void {
-    this.traineeBySubject$.pipe(
-      tap(data =>{
-        console.log(data)
-        if (!data) {
-          const chartObject = this.charts.find(chart => chart.type === 'chart 2');
-          chartObject.data = [];
+    this.subscribers.push(this.traineeBySubject$.pipe(
+        tap(data => {
+          console.log(data)
+          if (!data) {
+            const chartObject = this.charts.find(chart => chart.type === 'chart 2');
+            chartObject.data = [];
+          }
+        }),
+        filter((data): data is Trainee[] => data !== null),
+        map((data: Trainee[]) => {
+          console.log("data", data);
+          return data.map(trainee => {
+            const {name, subject} = trainee;
+            return {
+              name: `${name} ${subject}`,
+              value: trainee.grade
+            };
+          });
+        })
+      ).subscribe(chartData => {
+        const chartObject = this.charts.find(chart => chart.type === 'chart 2');
+        if (chartObject) {
+          chartObject.data = chartData;
         }
-      }),
-      filter((data): data is Trainee[] => data !== null),
-      map((data: Trainee[]) => {
-        console.log("data", data);
-        return data.map(trainee => {
-          const {name, subject} = trainee;
-          return {
-            name: `${name} ${subject}`,
-            value: trainee.grade
-          };
-        });
       })
-    ).subscribe(chartData => {
-      const chartObject = this.charts.find(chart => chart.type === 'chart 2');
-      if (chartObject) {
-        chartObject.data = chartData;
-      }
-    });
+    )
   }
 
   trackByFn(_index: any, item: any) {
     return item.id;
   }
 
-  draggedIsButton: boolean = false;
-
   dragStart(_event: any, item: any, isButton: boolean = false) {
     this.draggedItem = item;
     this.draggedIsButton = isButton;
   }
+
   dragOver(event: any) {
     event.preventDefault();
   }
 
   drop(event: any, targetChart: any) {
     event.preventDefault();
-    if(this.draggedIsButton) {
+    if (this.draggedIsButton) {
       // If the dragged item is button, swap target chart with the button
       const targetIndex = this.charts.findIndex(chart => chart === targetChart);
-      if(targetIndex !== -1){
+      if (targetIndex !== -1) {
         const tempChart = {...this.charts[targetIndex]};
         this.charts[targetIndex] = {...this.draggedItem};
         this.button = tempChart;
@@ -143,9 +145,12 @@ export class ChartsComponent implements OnInit{
         [this.charts[draggedIndex], this.charts[targetIndex]] = [this.charts[targetIndex], this.charts[draggedIndex]];
       }
     }
-
     // reset variables
     this.draggedItem = null;
     this.draggedIsButton = false;
+  }
+
+  ngOnDestroy(): void {
+    this.subscribers.map(subscriber => subscriber.unsubscribe());
   }
 }

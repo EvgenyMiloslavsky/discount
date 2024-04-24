@@ -32,6 +32,8 @@ export class FilterComponent implements OnInit, OnDestroy {
   filter$: Observable<string>;
   viewButton$: Observable<boolean>;
 
+  subscribers: Subscription[] = [];
+
   constructor(
     private store: Store,
     private dialog: MatDialog,
@@ -40,7 +42,7 @@ export class FilterComponent implements OnInit, OnDestroy {
   ) {
     this.viewButton$ = this.traineeService.viewButton$;
 
-    this.subscription = store.select(getTraineeId).subscribe(tr => {
+    this.subscribers.push(this.subscription = store.select(getTraineeId).subscribe(tr => {
       if (tr) {
         this.currentTraineeId = tr;
         this.onDisable = false;
@@ -48,7 +50,7 @@ export class FilterComponent implements OnInit, OnDestroy {
         this.currentTraineeId = '';
         this.onDisable = true;
       }
-    })
+    }))
 
     this.filter$ = store.select(getFilter);
 
@@ -72,18 +74,14 @@ export class FilterComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.subscription = this.filter$.subscribe(
+    this.subscribers.push(this.subscription = this.filter$.subscribe(
       filter => this.searchControl.setValue(filter)
-    );
+    ))
   }
 
   traineeRemove() {
     this.store.dispatch(removeTrainee({id: this.currentTraineeId}));
     this.store.dispatch(setTraineeId({selectedTraineesId: ''}));
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 
   openAddTraineeDialog(): void {
@@ -121,5 +119,9 @@ export class FilterComponent implements OnInit, OnDestroy {
 
   updateDetails() {
     this.traineeService.onUpdateButton();
+  }
+
+  ngOnDestroy(): void {
+    this.subscribers.map(subscriber => subscriber.unsubscribe());
   }
 }
