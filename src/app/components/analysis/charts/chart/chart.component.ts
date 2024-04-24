@@ -13,22 +13,6 @@ export class ChartComponent implements OnDestroy{
   @Input() public chartData: any[] = [];
   @Input() public index: number = 0;
 
-  /*
-  chartData: any[] = [
-    {
-      "name": "Data 1",
-      "value": 89
-    },
-    {
-      "name": "Data 2",
-      "value": 50
-    },
-    {
-      "name": "Data 3",
-      "value": 72
-    }
-  ];*/
-
   view: any[] = [300, 300]; // Width and height of the chart
 
   // Options
@@ -40,9 +24,6 @@ export class ChartComponent implements OnDestroy{
   showYAxisLabel = true;
   yAxisLabel = 'Value';
 
-  /*colorScheme = {
-    domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
-  };*/
   colorScheme = 'vivid'
 
 
@@ -56,7 +37,7 @@ export class ChartComponent implements OnDestroy{
   }
 
   updateChartSize = () => {
-    this.view = [window.innerWidth / 3, window.innerHeight / 2];
+    this.view = [window.innerWidth / 3, window.innerHeight / 2.2];
     this.changeDetectorRef.markForCheck();
   };
 }

@@ -1,9 +1,24 @@
 import {Injectable} from '@angular/core';
+import {Subject} from "rxjs";
+import {Trainee} from "../models/trainee";
 
 @Injectable({
   providedIn: 'root'
 })
 export class SearchService {
+
+  private idDataSubject = new Subject<Trainee[] | null>();
+  traineesById$ = this.idDataSubject.asObservable();
+
+  private subjectDataSubject = new Subject<Trainee[] | null>();
+  traineesBySubject$ = this.subjectDataSubject.asObservable();
+
+  setTraineesById(data: Trainee[] | null): void {
+    this.idDataSubject.next(data);
+  }
+  setTraineesBySubject(data: Trainee[] | null): void {
+    this.subjectDataSubject.next(data);
+  }
 
   getPrefix(str: string): string {
     let match = str.match(/^(id|grade|date)/i);

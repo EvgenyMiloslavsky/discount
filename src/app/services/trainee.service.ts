@@ -21,8 +21,6 @@ export class TraineeService {
     return (this.http.get(url)/*.pipe(delay(3000))*/);
   }
 
-
-
   onViewButton(data: boolean) {
     this.dataSubject.next(data);
   }

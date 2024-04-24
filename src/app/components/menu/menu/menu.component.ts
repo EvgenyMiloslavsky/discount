@@ -12,5 +12,4 @@ import {RouterLink} from "@angular/router";
 })
 export class MenuComponent {
   selectedButton = 'Data';
-
 }

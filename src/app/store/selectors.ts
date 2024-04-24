@@ -3,8 +3,6 @@ import {TraineeState} from "./reducers";
 
 export const selectTraineeFeature = createFeatureSelector<TraineeState>('trainee');
 
-// const feature = (state: AppState) => state.trainee;
-
 
 export const selectTraineeState = createSelector(
   selectTraineeFeature,
@@ -41,3 +39,24 @@ export const getFilter = createSelector(
   selectTraineeFeature,
   (state: TraineeState) => state.filter
 )
+
+// Parameterized selector
+export const selectTraineeByOptions = (parameter: string, filterOptions: string[]) => createSelector(
+  selectTraineeFeature,
+  (state: TraineeState) => {
+    if (filterOptions.length === 0) {
+      return null;
+    } else if (parameter === 'id') {
+      const res = state.trainees.filter(trainee =>
+        filterOptions.includes(trainee[parameter]));
+      return res.length !== 0 ? res : null;
+    } else if (parameter === 'subject') {
+      const res = state.trainees.filter(trainee =>
+        filterOptions.includes(trainee[parameter])
+      );
+      return res.length !== 0 ? res : null;
+    } else {
+      return null;
+    }
+  }
+);

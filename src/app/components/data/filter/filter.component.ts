@@ -29,7 +29,6 @@ export class FilterComponent implements OnInit, OnDestroy {
 
 
   searchControl = new FormControl();
-  searchResults$!: Observable<any>;
   filter$: Observable<string>;
   viewButton$: Observable<boolean>;
 

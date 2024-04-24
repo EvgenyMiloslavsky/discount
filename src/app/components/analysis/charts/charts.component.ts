@@ -1,8 +1,11 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {DragDropModule} from "@angular/cdk/drag-drop";
 import {ChartComponent} from "./chart/chart.component";
 import {MatButtonModule} from "@angular/material/button";
+import {SearchService} from "../../../services/search.service";
+import {filter, map, Observable, tap} from "rxjs";
+import {Trainee} from "../../../models/trainee";
 
 @Component({
   selector: 'app-charts-container',
@@ -16,7 +19,7 @@ import {MatButtonModule} from "@angular/material/button";
   templateUrl: './charts.component.html',
   styleUrls: ['./charts.component.scss']
 })
-export class ChartsComponent {
+export class ChartsComponent implements OnInit{
   charts = [
     {
       type: 'chart 1', description: 'Grades average over time for students with ID:', id: 1, data: [
@@ -36,7 +39,7 @@ export class ChartsComponent {
     },
     {
       type: 'chart 2', description: 'Grades average per subject', data: [
-        {
+       /* {
           "name": "Data 4",
           "value": 89
         },
@@ -47,7 +50,7 @@ export class ChartsComponent {
         {
           "name": "Data 6",
           "value": 72
-        }
+        }*/
       ]
     },
 
@@ -72,6 +75,42 @@ export class ChartsComponent {
 
   draggedItem: any;
 
+  traineeById$: Observable<Trainee[] | null>;
+  traineeBySubject$: Observable<Trainee[] | null>;
+
+  constructor(private searchService: SearchService,) {
+    this.traineeById$ = this.searchService.traineesById$
+    this.traineeBySubject$ = this.searchService.traineesBySubject$
+  }
+
+  public ngOnInit(): void {
+    this.traineeBySubject$.pipe(
+      tap(data =>{
+        console.log(data)
+        if (!data) {
+          const chartObject = this.charts.find(chart => chart.type === 'chart 2');
+          chartObject.data = [];
+        }
+      }),
+      filter((data): data is Trainee[] => data !== null),
+      map((data: Trainee[]) => {
+        console.log("data", data);
+        return data.map(trainee => {
+          const {name, subject} = trainee;
+          return {
+            name: `${name} ${subject}`,
+            value: trainee.grade
+          };
+        });
+      })
+    ).subscribe(chartData => {
+      const chartObject = this.charts.find(chart => chart.type === 'chart 2');
+      if (chartObject) {
+        chartObject.data = chartData;
+      }
+    });
+  }
+
   trackByFn(_index: any, item: any) {
     return item.id;
   }
@@ -88,7 +127,6 @@ export class ChartsComponent {
 
   drop(event: any, targetChart: any) {
     event.preventDefault();
-
     if(this.draggedIsButton) {
       // If the dragged item is button, swap target chart with the button
       const targetIndex = this.charts.findIndex(chart => chart === targetChart);

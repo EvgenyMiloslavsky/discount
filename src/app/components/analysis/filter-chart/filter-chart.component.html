@@ -1,11 +1,14 @@
 <div class="filter-container">
   <div class="form">
     <label class="form__label"> ID:</label>
-    <input class="form__input" type="text" [formControl]="searchControl">
+    <input class="form__input" type="text"
+           [formControl]="searchIdControl"
+           placeholder="ID separated with comma or space">
   </div>
   <div class="form">
     <label class="form__label"> Subjects:</label>
-    <input class="form__input" type="text" [formControl]="searchControl">
+    <input class="form__input" type="text"
+           [formControl]="searchSubjectControl"
+           placeholder="ID separated with comma or space">
   </div>
 </div>
-{{viewButton$ | async}}
