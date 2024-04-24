@@ -1,0 +1,17 @@
+<div class="chart-container">
+  <h2> {{ chartData['type'].toUpperCase() }}</h2>
+  <ngx-charts-bar-vertical
+    [view]="view"
+    [scheme]="colorScheme"
+    [results]="chartData['data']"
+    [gradient]="gradient"
+    [xAxis]="showXAxis"
+    [yAxis]="showYAxis"
+    [showXAxisLabel]="showXAxisLabel"
+    [showYAxisLabel]="showYAxisLabel"
+    [xAxisLabel]="xAxisLabel"
+    [yAxisLabel]="yAxisLabel">
+  </ngx-charts-bar-vertical>
+  <p>{{chartData['description']}}</p>
+</div>
+{{chartData['type'] | json}}

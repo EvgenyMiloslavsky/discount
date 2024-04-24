@@ -16,6 +16,6 @@ export const appConfig: ApplicationConfig = {
     provideEffects(appEffects),
     provideStoreDevtools({ maxAge: 25 }),
     provideHttpClient(),
-    provideAnimations()
+    provideAnimations(),
 ],
 };

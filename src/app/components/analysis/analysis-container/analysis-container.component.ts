@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
-import {ChartsComponent} from "../charts/charts/charts.component";
+import {ChartsComponent} from "../charts/charts.component";
 
 @Component({
   selector: 'app-analysis-container',

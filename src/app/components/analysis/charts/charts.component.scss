@@ -1,0 +1,93 @@
+/*
+.group {
+  position: relative;
+  height: 500px; !* adjust this based on your charts' size *!
+}
+
+.chart {
+  position: absolute;
+  width: 50%;
+  height: 0;
+
+  button{
+    width: 100%;
+  }
+}
+*/
+
+/*.chart:nth-child(1) {
+  top: 0;
+  left: 0;
+}
+
+.chart:nth-child(2) {
+  top: 0;
+  right: 0;
+}*/
+
+/*
+.chart:nth-child(3) {
+  bottom: 0;
+  width: 100%;
+  height: 50px;
+  overflow: hidden;
+}
+*/
+
+.group{
+  //width: 300px;
+}
+
+.group-charts{
+  //display: flex;
+  //gap: 5rem;
+}
+
+.chart{
+  //width: 300px;
+  //height: 200px;
+  //display: block;
+}
+
+.cdk-drag {
+  //margin: 30px;
+  //height: 100rem !important;
+  //width: 50% !important; /* or any other width you prefer */
+}
+
+/*
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+*/
+
+.group-container {
+  display: flex;
+  gap: 20px;
+  text-align: center;
+  //background-color: #f9f9f9;
+
+}
+button{
+  margin-top: 1rem;
+  width: 100%;
+  font-weight: 700;
+}
+
+.charts {
+  text-align: center;
+  width: 100%;
+  /*height: 200px;*/
+  border: 1px solid #ccc;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+[draggable] {
+  cursor: move;
+}
+
+/*[draggable]:active {
+  opacity: 0.5;
+}*/
+

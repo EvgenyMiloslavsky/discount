@@ -1,0 +1,32 @@
+<!--
+<div cdkDropList [cdkDropListData]="charts"  (cdkDropListDropped)="drop($event)" class="group-charts">
+  <div *ngFor="let chart of charts; let i = index; let last = last" class="charts" cdkDrag>
+    &lt;!&ndash;    <div *ngIf="chart.type === 'chart1'" (mouseenter)="track(i)">&ndash;&gt;
+    <div class="chart" >
+      <app-chart1 [chartData]=chart *ngIf="!last"></app-chart1>
+      <button mat-button mat-stroked-button
+              *ngIf="i === charts.length -1"  style="width: 100%">{{ charts[i].type }}</button>
+    </div>
+  </div>
+</div>
+
+-->
+
+<div class="group">
+  <div class="group-container">
+    <div class="charts"
+         *ngFor="let chart of charts; trackBy:trackByFn"
+         draggable="true"
+         (dragstart)="dragStart($event, chart)"
+         (dragover)="dragOver($event)"
+         (drop)="drop($event, chart)">
+      <div [ngSwitch]="chart.type">
+        <app-chart1 [chartData]=chart></app-chart1>
+<!--        {{chart | json}}-->
+      </div>
+    </div>
+  </div>
+  <button mat-button mat-raised-button draggable="true"
+          (dragstart)="dragStart($event, button, true)">{{button.type.toUpperCase()}}
+  </button>
+</div>
