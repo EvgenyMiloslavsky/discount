@@ -35,6 +35,8 @@ export class FilterComponent implements OnInit, OnDestroy {
 
   subscribers: Subscription[] = [];
 
+  filterName = 'dataFilter';
+
   constructor(
     private store: Store,
     private dialog: MatDialog,
@@ -45,16 +47,16 @@ export class FilterComponent implements OnInit, OnDestroy {
 
     this.subscribers.push(
       this.subscription = store.select(getTraineeId).subscribe(tr => {
-      if (tr) {
-        this.currentTraineeId = tr;
-        this.onDisable = false;
-      } else {
-        this.currentTraineeId = '';
-        this.onDisable = true;
-      }
-    }))
+        if (tr) {
+          this.currentTraineeId = tr;
+          this.onDisable = false;
+        } else {
+          this.currentTraineeId = '';
+          this.onDisable = true;
+        }
+      }))
 
-    this.filter$ = store.select(getFilter('dataFilter'));
+    this.filter$ = store.select(getFilter(this.filterName));
 
     this.searchControl.valueChanges.pipe(
       debounceTime(500),
@@ -63,7 +65,7 @@ export class FilterComponent implements OnInit, OnDestroy {
         if (query !== '') {
           return this.doSearch(query)
         } else {
-          this.store.dispatch(setFilter({name: 'dataFilter', filter: ''}))
+          this.store.dispatch(setFilter({name: this.filterName, filter: ''}))
           return of(null)
         }
       })
@@ -74,13 +76,13 @@ export class FilterComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscribers.push(
-      this.subscription = this.filter$.subscribe(
-      filterState => {
-        if(filterState){
-        this.searchControl.setValue(filterState.filter)
+      this.filter$.subscribe(
+        filterState => {
+          if (filterState) {
+            this.searchControl.setValue(filterState.filter)
+          }
         }
-      }
-    ))
+      ))
   }
 
   traineeRemove() {
@@ -104,15 +106,15 @@ export class FilterComponent implements OnInit, OnDestroy {
     if (prefix === 'id') {
       const num = this.search.extractNumberFromString(query);
       this.prefixAndNumber = `${prefix}:${num}`;
-      this.store.dispatch(setFilter({name: 'dataFilter',filter: num ? this.prefixAndNumber : 'id'}))
+      this.store.dispatch(setFilter({name: this.filterName, filter: num ? this.prefixAndNumber : 'id'}))
     } else if (prefix === 'date') {
       const date = this.search.extractRangeDateFromString(query);
       this.prefixAndNumber = `${prefix}:${date}`;
-      this.store.dispatch(setFilter({name: 'dataFilter',filter: date ? this.prefixAndNumber : 'date'}))
+      this.store.dispatch(setFilter({name: this.filterName, filter: date ? this.prefixAndNumber : 'date'}))
     } else if (prefix === 'grade') {
       const ran = this.search.extractRangeFromString(query);
       this.prefixAndNumber = `${prefix}:${ran}`;
-      this.store.dispatch(setFilter({name: 'dataFilter ',filter: ran ? this.prefixAndNumber : 'grade'}))
+      this.store.dispatch(setFilter({name: this.filterName, filter: ran ? this.prefixAndNumber : 'grade'}))
     }
     return of(null);
   }
