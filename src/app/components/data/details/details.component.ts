@@ -42,7 +42,8 @@ export class DetailsComponent implements OnInit, OnDestroy {
     private store: Store,
     private traineeService: TraineeService) {
 
-    this.subscribers.push(this.traineeForm.valueChanges.pipe(
+    this.subscribers.push(
+      this.traineeForm.valueChanges.pipe(
       tap(() => {
         console.log("ValueChanges")
       }),
@@ -63,13 +64,15 @@ export class DetailsComponent implements OnInit, OnDestroy {
       this.traineeService.onViewButton(res)
     }));
 
-    this.subscribers.push(this.traineeService.onUpdateButtonClicked$.subscribe(() => {
+    this.subscribers.push(
+      this.traineeService.onUpdateButtonClicked$.subscribe(() => {
       this.updateTrainee();
     }));
   }
 
   ngOnInit() {
-    this.subscribers.push(this.store.select(getSelectedTrainee).pipe(
+    this.subscribers.push(
+      this.store.select(getSelectedTrainee).pipe(
       catchError(err => {
         console.error(err);
         return throwError(err);

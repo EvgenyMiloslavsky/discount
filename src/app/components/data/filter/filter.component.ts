@@ -42,7 +42,8 @@ export class FilterComponent implements OnInit, OnDestroy {
   ) {
     this.viewButton$ = this.traineeService.viewButton$;
 
-    this.subscribers.push(this.subscription = store.select(getTraineeId).subscribe(tr => {
+    this.subscribers.push(
+      this.subscription = store.select(getTraineeId).subscribe(tr => {
       if (tr) {
         this.currentTraineeId = tr;
         this.onDisable = false;
@@ -74,7 +75,8 @@ export class FilterComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.subscribers.push(this.subscription = this.filter$.subscribe(
+    this.subscribers.push(
+      this.subscription = this.filter$.subscribe(
       filter => this.searchControl.setValue(filter)
     ))
   }

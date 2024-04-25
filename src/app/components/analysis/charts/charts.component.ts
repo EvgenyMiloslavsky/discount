@@ -22,7 +22,7 @@ import {Trainee} from "../../../models/trainee";
 export class ChartsComponent implements OnInit, OnDestroy {
   charts = [
     {
-      type: 'chart 1', description: 'Grades average over time for students with ID:', id: 1, data: [
+      type: 'chart 1', description: 'Grades average over time for students with ID', id: 1, data: [
         {
           "name": "Data 1",
           "value": 89
@@ -38,20 +38,7 @@ export class ChartsComponent implements OnInit, OnDestroy {
       ]
     },
     {
-      type: 'chart 2', description: 'Grades average per subject', data: [
-        /* {
-           "name": "Data 4",
-           "value": 89
-         },
-         {
-           "name": "Data 5",
-           "value": 50
-         },
-         {
-           "name": "Data 6",
-           "value": 72
-         }*/
-      ]
+      type: 'chart 2', description: 'Grades average per subject', data: []
     },
 
   ];
@@ -86,9 +73,9 @@ export class ChartsComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.subscribers.push(this.traineeBySubject$.pipe(
+    this.subscribers.push(
+      this.traineeBySubject$.pipe(
         tap(data => {
-          console.log(data)
           if (!data) {
             const chartObject = this.charts.find(chart => chart.type === 'chart 2');
             chartObject.data = [];
@@ -96,7 +83,6 @@ export class ChartsComponent implements OnInit, OnDestroy {
         }),
         filter((data): data is Trainee[] => data !== null),
         map((data: Trainee[]) => {
-          console.log("data", data);
           return data.map(trainee => {
             const {name, subject} = trainee;
             return {
@@ -110,6 +96,34 @@ export class ChartsComponent implements OnInit, OnDestroy {
         if (chartObject) {
           chartObject.data = chartData;
         }
+      })
+    );
+
+    this.subscribers.push(
+      this.traineeById$.pipe(
+        tap(data => {
+          console.log("ID", data)
+          if (!data) {
+            const chartObject = this.charts.find(chart => chart.type === 'chart 2');
+            chartObject.data = [];
+          }
+        }),
+        filter((data): data is Trainee[] => data !== null),
+        map((data: Trainee[]) => {
+          return data.map(trainee => {
+            const {name, subject} = trainee;
+            return {
+              name: `${name} ${subject}`,
+              value: trainee.grade
+            };
+          });
+        })
+      ).subscribe(chartData => {
+       /* const chartObject = this.charts.find(chart => chart.type === 'chart 2');
+        if (chartObject) {
+          chartObject.data = chartData;
+        }*/
+        console.log("ID Data", chartData);
       })
     )
   }

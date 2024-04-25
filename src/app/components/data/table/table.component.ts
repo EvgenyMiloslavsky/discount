@@ -30,7 +30,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   dataSource: MatTableDataSource<Trainee> = new MatTableDataSource<Trainee>();
 
   constructor(private store: Store, private searchService: SearchService) {
-    this.subscribers.push(this.store.select(getFilter).subscribe(fi => {
+    this.subscribers.push(
+      this.store.select(getFilter).subscribe(fi => {
       if (fi) {
         const [key, value] = fi.split(':');
         this.searchKey = key;
@@ -48,22 +49,16 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     }));
 
-    this.subscribers.push(this.store.select(selectAllTrainees).subscribe(
+    this.subscribers.push(
+      this.store.select(selectAllTrainees).subscribe(
       tr => {
         this.dataSource.data = tr;
         // this.dataSource.filter = this.searchValue.trim().toLowerCase();
-
-        /* console.log("Search value", this.searchValue)
-         console.log(`Updated dataSource with data:`, tr, `and filter: '${this.dataSource.filter}'`);*/
       }
     ));
   }
 
   ngOnInit(): void {
-  }
-
-  ngOnDestroy(): void {
-    this.subscribers.forEach(sub => sub.unsubscribe());
   }
 
   clickedRow(id: string) {
@@ -103,4 +98,9 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
         break;
     }
   }
+
+  ngOnDestroy(): void {
+    this.subscribers.forEach(sub => sub.unsubscribe());
+  }
+
 }
