@@ -31,31 +31,30 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(private store: Store, private searchService: SearchService) {
     this.subscribers.push(
-      this.store.select(getFilter).subscribe(fi => {
-      if (fi) {
-        const [key, value] = fi.split(':');
-        this.searchKey = key;
-        this.searchValue = value;
-        if (this.searchValue) {
-          this.filterPredicates();
-          this.dataSource.filter = this.searchValue.trim().toLowerCase();
-          console.log("SER", this.searchValue)
-        }        /* console.log("SER", this.searchValue)
-         console.log("===>", (this.searchValue.replace(/\D/g, '')) === this.searchValue)
-         console.log(`Updated searchKey to '${this.searchKey}' and searchValue to '${this.searchValue}'`);
- */
-      } else {
-        this.dataSource.filter = "";
-      }
-    }));
+      this.store.select(getFilter('dataFilter')).subscribe(fi => {
+        if (fi && fi.filter !== '') {
+          const [key, value] = fi.filter.split(':');
+          this.searchKey = key;
+          this.searchValue = value;
+          if (this.searchValue) {
+            this.filterPredicates();
+            this.dataSource.filter = this.searchValue.trim().toLowerCase();
+            console.log("SER", this.searchValue)
+          } else {
+            this.dataSource.filter = "";
+          }
+        } else {
+          this.dataSource.filter = "";
+        }
+      }));
 
     this.subscribers.push(
       this.store.select(selectAllTrainees).subscribe(
-      tr => {
-        this.dataSource.data = tr;
-        // this.dataSource.filter = this.searchValue.trim().toLowerCase();
-      }
-    ));
+        tr => {
+          this.dataSource.data = tr;
+          // this.dataSource.filter = this.searchValue.trim().toLowerCase();
+        }
+      ));
   }
 
   ngOnInit(): void {
@@ -86,7 +85,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
           const customGradeFilterPredicate = this.searchService.createGradeFilterPredicate<any>(this.searchKey);
           this.dataSource.filterPredicate = (data, filter) => customGradeFilterPredicate(data, filter);
         }
-        // console.log("Grade", this.searchKey);
         break;
       case 'date':
         if (this.searchValue.includes("<") || this.searchValue.includes(">")) {

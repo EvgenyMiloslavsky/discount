@@ -35,9 +35,16 @@ export const getTraineeId = createSelector(
   (state: TraineeState) => state.selectedTraineesId
 )
 
-export const getFilter = createSelector(
+/*export const getFilter = createSelector(
   selectTraineeFeature,
   (state: TraineeState) => state.filter
+)*/
+
+export const getFilter = (filterType: string) => createSelector(
+  selectTraineeFeature,
+  (state: TraineeState) => {
+    return state.filters.find(fi => fi.name === filterType)
+  }
 )
 
 // Parameterized selector

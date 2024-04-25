@@ -12,6 +12,7 @@ import {Trainee} from "../../../models/trainee";
 import {FormControl, ReactiveFormsModule} from "@angular/forms";
 import {SearchService} from "../../../services/search.service";
 import {TraineeService} from "../../../services/trainee.service";
+import {StateFilter} from "../../../store/reducers";
 
 @Component({
   selector: 'app-filter',
@@ -29,7 +30,7 @@ export class FilterComponent implements OnInit, OnDestroy {
 
 
   searchControl = new FormControl();
-  filter$: Observable<string>;
+  filter$: Observable<StateFilter>;
   viewButton$: Observable<boolean>;
 
   subscribers: Subscription[] = [];
@@ -53,7 +54,7 @@ export class FilterComponent implements OnInit, OnDestroy {
       }
     }))
 
-    this.filter$ = store.select(getFilter);
+    this.filter$ = store.select(getFilter('dataFilter'));
 
     this.searchControl.valueChanges.pipe(
       debounceTime(500),
@@ -62,7 +63,7 @@ export class FilterComponent implements OnInit, OnDestroy {
         if (query !== '') {
           return this.doSearch(query)
         } else {
-          this.store.dispatch(setFilter({filter: ''}))
+          this.store.dispatch(setFilter({name: 'dataFilter', filter: ''}))
           return of(null)
         }
       })
@@ -74,7 +75,11 @@ export class FilterComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscribers.push(
       this.subscription = this.filter$.subscribe(
-      filter => this.searchControl.setValue(filter)
+      filterState => {
+        if(filterState){
+        this.searchControl.setValue(filterState.filter)
+        }
+      }
     ))
   }
 
@@ -99,15 +104,15 @@ export class FilterComponent implements OnInit, OnDestroy {
     if (prefix === 'id') {
       const num = this.search.extractNumberFromString(query);
       this.prefixAndNumber = `${prefix}:${num}`;
-      this.store.dispatch(setFilter({filter: num ? this.prefixAndNumber : 'id'}))
+      this.store.dispatch(setFilter({name: 'dataFilter',filter: num ? this.prefixAndNumber : 'id'}))
     } else if (prefix === 'date') {
       const date = this.search.extractRangeDateFromString(query);
       this.prefixAndNumber = `${prefix}:${date}`;
-      this.store.dispatch(setFilter({filter: date ? this.prefixAndNumber : 'date'}))
+      this.store.dispatch(setFilter({name: 'dataFilter',filter: date ? this.prefixAndNumber : 'date'}))
     } else if (prefix === 'grade') {
       const ran = this.search.extractRangeFromString(query);
       this.prefixAndNumber = `${prefix}:${ran}`;
-      this.store.dispatch(setFilter({filter: ran ? this.prefixAndNumber : 'grade'}))
+      this.store.dispatch(setFilter({name: 'dataFilter ',filter: ran ? this.prefixAndNumber : 'grade'}))
     }
     return of(null);
   }

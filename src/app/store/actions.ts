@@ -7,6 +7,6 @@ export const loadTraineesFailure = createAction('[Trainee] Load Trainee Failure'
 export const setTraineeId = createAction('[Current Trainee Id] Set Trainee Id', props<{ selectedTraineesId: string  }>());
 export const removeTrainee = createAction('[Trainee] Remove Trainee', props<{ id: string }>());
 export const addTrainee = createAction('[Trainee] Add Trainee', props<{ trainee: Trainee }>());
-export const setFilter = createAction('[Filter] Set Filter', props<{ filter: string }>());
+export const setFilter = createAction('[Filter] Set Filter', props<{ name: string, filter: string }>());
 export const updateTrainee = createAction('[Trainee] Update Trainee', props<{ trainee: Trainee, id: string }>());
 export const getTrainee = createAction('[Trainee] Get Trainees by Id or Subject', props<{ parameter: string }>());

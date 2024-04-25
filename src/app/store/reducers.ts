@@ -2,10 +2,15 @@ import {Trainee} from "../models/trainee";
 import {createReducer, on} from "@ngrx/store";
 import {TraineesAction} from "./actions-types";
 
+export interface StateFilter {
+  name: string,
+  filter: string
+}
+
 export interface TraineeState {
   trainees: Trainee[];
   loading: boolean;
-  filter: string;
+  filters: StateFilter[];
   error: string;
   selectedTraineesId: string;
 }
@@ -13,7 +18,7 @@ export interface TraineeState {
 export const initialState: TraineeState = {
   trainees: [],
   loading: false,
-  filter: '',
+  filters: [],
   error: '',
   selectedTraineesId: ''
 };
@@ -33,8 +38,21 @@ export const traineeReducer = createReducer(
     ...state,
     trainees: state.trainees.filter(trainee => trainee.id !== id)
   })),
-  on(TraineesAction.addTrainee, (state, {trainee}) => ({...state, trainees: [trainee, ...state.trainees]})),
-  on(TraineesAction.setFilter, (state, {filter}) => ({...state, filter: filter})),
+  on(TraineesAction.addTrainee, (state, {trainee}) =>
+    ({...state, trainees: [trainee, ...state.trainees]})),
+  on(TraineesAction.setFilter, (state, { name, filter }) => {
+    const existingFilterIndex = state.filters.findIndex(f => f.name === name);
+
+    if (existingFilterIndex >= 0) {
+      // If filter exists, we're replacing it with a new value
+      const newFilters = [...state.filters];
+      newFilters[existingFilterIndex] = { name, filter };
+      return { ...state, filters: newFilters };
+    } else {
+      // If filter doesn't exist, we're adding a new one
+      return { ...state, filters: [...state.filters, { name, filter }] };
+    }
+  }),
   on(TraineesAction.updateTrainee, (state, {trainee, id}) => ({
       ...state,  // spread the current state
       trainees: state.trainees.map(t => {  // create a new array by mapping over trainees in state
