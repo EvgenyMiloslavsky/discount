@@ -48,23 +48,26 @@ export class FilterChartComponent implements OnInit, OnDestroy {
       distinctUntilChanged(),
       switchMap(query => {
         if (query !== '') {
-          let separatedToArray = this.separateToArray(query);
-          separatedToArray = separatedToArray.map(sub => {
-              if (sub) {
-                return sub[0].toUpperCase() + sub.slice(1)
-              }else{
-                return '';
-              }
+          let nameArray = this.separateToArray(query);
+          let mappedArray = nameArray.map(sub => {
+            if (sub) {
+              return sub[0].toUpperCase() + sub.slice(1);
+            } else {
+              return null;
             }
-          )
-          return this.doSearchBySubject(separatedToArray)
+          });
+
+          if (mappedArray.length === 1 && mappedArray[0] === null) {
+            return of([]);
+          }
+          return of(mappedArray.filter(item => item != null));
         } else {
-          return of(null)
+          return of([]);
         }
       })
-    ).subscribe((tr) => {
-      this.search.setTraineesBySubject(tr)
-    });
+    ).subscribe((nameArray: string[] | [null]) => {
+      this.search.searchSubjectBySubjectName(nameArray);
+    })
   }
 
   doSearchById(option: string[]): Observable<Trainee[] | null> {

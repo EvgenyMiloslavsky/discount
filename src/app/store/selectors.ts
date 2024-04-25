@@ -52,7 +52,7 @@ export const selectTraineeByOptions = (parameter: string, filterOptions: string[
       return res.length !== 0 ? res : null;
     } else if (parameter === 'subject') {
       const res = state.trainees.filter(trainee =>
-        filterOptions.includes(trainee[parameter])
+        trainee.subjects.some(subject => filterOptions.includes(subject.name))
       );
       return res.length !== 0 ? res : null;
     } else {

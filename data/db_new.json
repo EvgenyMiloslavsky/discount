@@ -1,0 +1,206 @@
+{
+  "trainees": [
+    {
+      "id": "9592396",
+      "name": "Lukas",
+      "email": "lcourt0@sphinn.com",
+      "date_joined": "13/01/2024",
+      "address": "73 Fieldstone Drive",
+      "city": "Whakatane",
+      "country": "New Zealand",
+      "subjects": [
+        {
+          "name": "Math",
+          "grade": 88
+        },
+        {
+          "name": "History",
+          "grade": 57
+        },
+        {
+          "name": "Chemistry",
+          "grade": 46
+        },
+        {
+          "name": "Physics",
+          "grade": 39
+        },
+        {
+          "name": "English",
+          "grade": 75
+        },
+        {
+          "name": "Literature",
+          "grade": 82
+        },
+        {
+          "name": "Programming",
+          "grade": 95
+        }
+      ],
+      "zip": 508186
+    },
+    {
+      "id": "0285564",
+      "name": "Shannon",
+      "email": "soteague1@1688.com",
+      "date_joined": "28/11/2023",
+      "address": "2606 Coleman Point",
+      "city": "Lindavista",
+      "country": "Mexico",
+      "subjects": [
+        {
+          "name": "History",
+          "grade": 45
+        },
+        {
+          "name": "Chemistry",
+          "grade": 85
+        },
+
+        {
+          "name": "English",
+          "grade": 92
+        },
+
+        {
+          "name": "Programming",
+          "grade": 80
+        }
+      ],
+      "zip": 521784
+    },
+    {
+      "id": "5431799",
+      "name": "Camila",
+      "email": "cbirkwood2@booking.com",
+      "date_joined": "23/12/2023",
+      "address": "0291 Hovde Alley",
+      "city": "Vahdat",
+      "country": "Tajikistan",
+      "subjects": [
+        {
+          "name": "Biology",
+          "grade": 38
+        },
+        {
+          "name": "Physics",
+          "grade": 52
+        },
+        {
+          "name": "Literature",
+          "grade": 81
+        },
+        {
+          "name": "Programming",
+          "grade": 73
+        }
+      ],
+      "zip": 689174
+    },
+    {
+      "id": "1301038",
+      "name": "Sherline",
+      "email": "slonghirst3@google.com.au",
+      "date_joined": "26/01/2024",
+      "address": "43 Esker Junction",
+      "city": "Grubišno Polje",
+      "country": "Croatia",
+      "subjects": [
+        {
+          "name": "Math",
+          "grade": 89
+        },
+        {
+          "name": "History",
+          "grade": 16
+        },
+        {
+          "name": "Chemistry",
+          "grade": 19
+        },
+        {
+          "name": "Physics",
+          "grade": 89
+        },
+        {
+          "name": "Literature",
+          "grade": 28
+        },
+        {
+          "name": "Programming",
+          "grade": 14
+        }
+      ],
+      "zip": 900400
+    },
+    {
+      "id": "6214697",
+      "name": "Meriel",
+      "email": "mhabben4@instagram.com",
+      "date_joined": "17/12/2023",
+      "address": "8 Prairie Rose Street",
+      "city": "Cabusao",
+      "country": "Philippines",
+      "subjects": [
+        {
+          "name": "History",
+          "grade": 29
+        },
+        {
+          "name": "Physics",
+          "grade": 84
+        },
+        {
+          "name": "English",
+          "grade": 17
+        },
+        {
+          "name": "Literature",
+          "grade": 85
+        }
+      ],
+      "zip": 411277
+    },
+    {
+      "id": "7162000",
+      "name": "Bernie",
+      "email": "bsamsonsen5@dropbox.com",
+      "date_joined": "23/06/2023",
+      "address": "36554 Hansons Lane",
+      "city": "Boulder",
+      "country": "United States",
+      "subjects": [
+        {
+          "name": "Math",
+          "grade": 26
+        },
+        {
+          "name": "History",
+          "grade": 68
+        },
+        {
+          "name": "Chemistry",
+          "grade": 89
+        },
+        {
+          "name": "Physics",
+          "grade": 9
+        },
+        {
+          "name": "English",
+          "grade": 95
+        },
+        {
+          "name": "Literature",
+          "grade": 7
+        },
+        {
+          "name": "Programming",
+          "grade": 73
+        }
+      ],
+      "zip": 382042
+    }
+  ]
+}

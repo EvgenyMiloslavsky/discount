@@ -1,23 +1,56 @@
 import {Injectable} from '@angular/core';
 import {Subject} from "rxjs";
 import {Trainee} from "../models/trainee";
+import {selectTraineeByOptions} from "../store/selectors";
+import {Store} from "@ngrx/store";
+import {AppState} from "../store/store";
+
+export interface TraineeSubject {
+  name: string,
+  value: string
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class SearchService {
+  constructor(private store: Store<AppState>) {
+  }
 
   private idDataSubject = new Subject<Trainee[] | null>();
   traineesById$ = this.idDataSubject.asObservable();
 
-  private subjectDataSubject = new Subject<Trainee[] | null>();
+  private subjectDataSubject = new Subject<TraineeSubject[] | null>();
   traineesBySubject$ = this.subjectDataSubject.asObservable();
 
   setTraineesById(data: Trainee[] | null): void {
     this.idDataSubject.next(data);
   }
-  setTraineesBySubject(data: Trainee[] | null): void {
-    this.subjectDataSubject.next(data);
+
+  searchSubjectBySubjectName(names: string[] | null): void {
+    let subjects: TraineeSubject[] = [];
+    this.store.select(selectTraineeByOptions('subject', names)).subscribe(
+      (trainees: Trainee[] | null) => {
+        if (trainees && trainees.length) {
+          subjects = this.getSubjectsByName(trainees, names)
+        }
+      }
+    );
+    this.subjectDataSubject.next(subjects);
+  }
+
+  getSubjectsByName(trainees: Trainee[], subjectNames: string[]): TraineeSubject[] {
+    const subjects: TraineeSubject[] = [];
+
+    trainees.forEach(trainee => {
+      trainee.subjects.forEach(subject => {
+        if (subjectNames.includes(subject.name)) {
+          subjects.push({name: `${trainee.name} ${subject.name}`, value: subject.grade});
+        }
+      });
+    });
+
+    return subjects;
   }
 
   getPrefix(str: string): string {

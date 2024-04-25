@@ -81,7 +81,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
 
       console.log("Change trainee")
       if (tr) {
-        this.traineeForm.setValue({...tr});
+        // this.traineeForm.setValue({...tr});
         this.currentTrainee = {...tr};
         console.log("===>",this.currentTrainee, this.currentTrainee);
       } else {

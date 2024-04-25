@@ -3,9 +3,10 @@ import {CommonModule} from '@angular/common';
 import {DragDropModule} from "@angular/cdk/drag-drop";
 import {ChartComponent} from "./chart/chart.component";
 import {MatButtonModule} from "@angular/material/button";
-import {SearchService} from "../../../services/search.service";
-import {filter, map, Observable, Subscription, tap} from "rxjs";
+import {SearchService, TraineeSubject} from "../../../services/search.service";
+import {filter, map, Observable, Subscription} from "rxjs";
 import {Trainee} from "../../../models/trainee";
+import chartsAndButton from "../../../../assets/chartData.json";
 
 @Component({
   selector: 'app-charts-container',
@@ -20,78 +21,24 @@ import {Trainee} from "../../../models/trainee";
   styleUrls: ['./charts.component.scss']
 })
 export class ChartsComponent implements OnInit, OnDestroy {
-  charts = [
-    {
-      type: 'chart 1', description: 'Grades average over time for students with ID', id: 1, data: [
-        {
-          "name": "Data 1",
-          "value": 89
-        },
-        {
-          "name": "Data 2",
-          "value": 50
-        },
-        {
-          "name": "Data 3",
-          "value": 72
-        }
-      ]
-    },
-    {
-      type: 'chart 2', description: 'Grades average per subject', data: []
-    },
 
-  ];
-
-  button = {
-    type: 'chart 3', description: 'Grades average for students with chosen ID', data: [
-      {
-        "name": "Data 7",
-        "value": 89
-      },
-      {
-        "name": "Data 8",
-        "value": 50
-      },
-      {
-        "name": "Data 9",
-        "value": 72
-      }
-    ]
-  };
-
+  charts = chartsAndButton.charts;
+  button = chartsAndButton.button
   draggedItem: any;
 
   traineeById$: Observable<Trainee[] | null>;
-  traineeBySubject$: Observable<Trainee[] | null>;
+  traineeBySubject$: Observable<TraineeSubject[] | null>;
   draggedIsButton: boolean = false;
   subscribers: Subscription[] = [];
 
   constructor(private searchService: SearchService,) {
-    this.traineeById$ = this.searchService.traineesById$
-    this.traineeBySubject$ = this.searchService.traineesBySubject$
+    this.traineeById$ = this.searchService.traineesById$;
+    this.traineeBySubject$ = this.searchService.traineesBySubject$;
   }
 
   public ngOnInit(): void {
     this.subscribers.push(
-      this.traineeBySubject$.pipe(
-        tap(data => {
-          if (!data) {
-            const chartObject = this.charts.find(chart => chart.type === 'chart 2');
-            chartObject.data = [];
-          }
-        }),
-        filter((data): data is Trainee[] => data !== null),
-        map((data: Trainee[]) => {
-          return data.map(trainee => {
-            const {name, subject} = trainee;
-            return {
-              name: `${name} ${subject}`,
-              value: trainee.grade
-            };
-          });
-        })
-      ).subscribe(chartData => {
+      this.traineeBySubject$.subscribe(chartData => {
         const chartObject = this.charts.find(chart => chart.type === 'chart 2');
         if (chartObject) {
           chartObject.data = chartData;
@@ -101,21 +48,21 @@ export class ChartsComponent implements OnInit, OnDestroy {
 
     this.subscribers.push(
       this.traineeById$.pipe(
-        tap(data => {
-          console.log("ID", data)
-          if (!data) {
-            const chartObject = this.charts.find(chart => chart.type === 'chart 2');
-            chartObject.data = [];
-          }
-        }),
+        // tap(data => {
+        //   console.log("ID", data)
+        //   if (!data) {
+        //     const chartObject = this.charts.find(chart => chart.type === 'chart 2');
+        //     chartObject.data = [];
+        //   }
+        // }),
         filter((data): data is Trainee[] => data !== null),
         map((data: Trainee[]) => {
           return data.map(trainee => {
-            const {name, subject} = trainee;
+          /*  const {name, subject} = trainee;
             return {
               name: `${name} ${subject}`,
               value: trainee.grade
-            };
+            };*/
           });
         })
       ).subscribe(chartData => {
