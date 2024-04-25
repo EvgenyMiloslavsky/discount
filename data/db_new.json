@@ -51,21 +51,25 @@
       "subjects": [
         {
           "name": "History",
-          "grade": 45
+          "grade": 45,
+          "time_over": 55
         },
         {
           "name": "Chemistry",
-          "grade": 85
+          "grade": 85,
+          "time_over": 90
         },
 
         {
           "name": "English",
-          "grade": 92
+          "grade": 92,
+          "time_over": 100
         },
 
         {
           "name": "Programming",
-          "grade": 80
+          "grade": 80,
+          "time_over": 88
         }
       ],
       "zip": 521784
@@ -81,19 +85,23 @@
       "subjects": [
         {
           "name": "Biology",
-          "grade": 38
+          "grade": 38,
+          "time_over": 46
         },
         {
           "name": "Physics",
-          "grade": 52
+          "grade": 52,
+          "time_over": 55
         },
         {
           "name": "Literature",
-          "grade": 81
+          "grade": 81,
+          "time_over": 86
         },
         {
           "name": "Programming",
-          "grade": 73
+          "grade": 73,
+          "time_over": 78
         }
       ],
       "zip": 689174
@@ -145,19 +153,23 @@
       "subjects": [
         {
           "name": "History",
-          "grade": 29
+          "grade": 29,
+          "time_over": 32
         },
         {
           "name": "Physics",
-          "grade": 84
+          "grade": 84,
+          "time_over": 90
         },
         {
           "name": "English",
-          "grade": 17
+          "grade": 17,
+          "time_over": 19
         },
         {
           "name": "Literature",
-          "grade": 85
+          "grade": 85,
+          "time_over": 89
         }
       ],
       "zip": 411277
@@ -173,31 +185,38 @@
       "subjects": [
         {
           "name": "Math",
-          "grade": 26
+          "grade": 26,
+          "time_over": 33
         },
         {
           "name": "History",
-          "grade": 68
+          "grade": 68,
+          "time_over": 74
         },
         {
           "name": "Chemistry",
-          "grade": 89
+          "grade": 89,
+          "time_over": 94
         },
         {
           "name": "Physics",
-          "grade": 9
+          "grade": 9,
+          "time_over": 12
         },
         {
           "name": "English",
-          "grade": 95
+          "grade": 95,
+          "time_over": 99
         },
         {
           "name": "Literature",
-          "grade": 7
+          "grade": 7,
+          "time_over": 9
         },
         {
           "name": "Programming",
-          "grade": 73
+          "grade": 73,
+          "time_over": 82
         }
       ],
       "zip": 382042

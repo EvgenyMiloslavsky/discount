@@ -4,8 +4,7 @@ import {DragDropModule} from "@angular/cdk/drag-drop";
 import {ChartComponent} from "./chart/chart.component";
 import {MatButtonModule} from "@angular/material/button";
 import {SearchService, TraineeSubject} from "../../../services/search.service";
-import {filter, map, Observable, Subscription} from "rxjs";
-import {Trainee} from "../../../models/trainee";
+import {Observable, Subscription} from "rxjs";
 import chartsAndButton from "../../../../assets/chartData.json";
 
 @Component({
@@ -26,7 +25,7 @@ export class ChartsComponent implements OnInit, OnDestroy {
   button = chartsAndButton.button
   draggedItem: any;
 
-  traineeById$: Observable<Trainee[] | null>;
+  traineeById$: Observable<TraineeSubject[] | null>;
   traineeBySubject$: Observable<TraineeSubject[] | null>;
   draggedIsButton: boolean = false;
   subscribers: Subscription[] = [];
@@ -41,36 +40,19 @@ export class ChartsComponent implements OnInit, OnDestroy {
       this.traineeBySubject$.subscribe(chartData => {
         const chartObject = this.charts.find(chart => chart.type === 'chart 2');
         if (chartObject) {
+          console.log("ID Data", chartData);
           chartObject.data = chartData;
         }
       })
     );
 
     this.subscribers.push(
-      this.traineeById$.pipe(
-        // tap(data => {
-        //   console.log("ID", data)
-        //   if (!data) {
-        //     const chartObject = this.charts.find(chart => chart.type === 'chart 2');
-        //     chartObject.data = [];
-        //   }
-        // }),
-        filter((data): data is Trainee[] => data !== null),
-        map((data: Trainee[]) => {
-          return data.map(trainee => {
-          /*  const {name, subject} = trainee;
-            return {
-              name: `${name} ${subject}`,
-              value: trainee.grade
-            };*/
-          });
-        })
-      ).subscribe(chartData => {
-       /* const chartObject = this.charts.find(chart => chart.type === 'chart 2');
+      this.traineeById$.subscribe(chartData => {
+        const chartObject = this.charts.find(chart => chart.type === 'chart 1');
         if (chartObject) {
+          console.log("ID Data", chartData);
           chartObject.data = chartData;
-        }*/
-        console.log("ID Data", chartData);
+        }
       })
     )
   }

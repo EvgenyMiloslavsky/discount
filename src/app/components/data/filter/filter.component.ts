@@ -59,10 +59,7 @@ export class FilterComponent implements OnInit, OnDestroy {
       debounceTime(500),
       distinctUntilChanged(),
       switchMap(query => {
-        debugger
-        console.log("Query", query);
         if (query !== '') {
-          // console.log("Query", query != 'id');
           return this.doSearch(query)
         } else {
           this.store.dispatch(setFilter({filter: ''}))
@@ -98,23 +95,19 @@ export class FilterComponent implements OnInit, OnDestroy {
   }
 
   doSearch(query: string): Observable<any> {
-    console.log("DoSearch")
     const prefix = this.search.getPrefix(query);
     if (prefix === 'id') {
       const num = this.search.extractNumberFromString(query);
       this.prefixAndNumber = `${prefix}:${num}`;
       this.store.dispatch(setFilter({filter: num ? this.prefixAndNumber : 'id'}))
     } else if (prefix === 'date') {
-      debugger
       const date = this.search.extractRangeDateFromString(query);
       this.prefixAndNumber = `${prefix}:${date}`;
       this.store.dispatch(setFilter({filter: date ? this.prefixAndNumber : 'date'}))
-      console.log("DATE", prefix)
     } else if (prefix === 'grade') {
       const ran = this.search.extractRangeFromString(query);
       this.prefixAndNumber = `${prefix}:${ran}`;
       this.store.dispatch(setFilter({filter: ran ? this.prefixAndNumber : 'grade'}))
-      console.log("GRADE", prefix)
     }
     return of(null);
   }

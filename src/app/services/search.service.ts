@@ -17,14 +17,22 @@ export class SearchService {
   constructor(private store: Store<AppState>) {
   }
 
-  private idDataSubject = new Subject<Trainee[] | null>();
+  private idDataSubject = new Subject<TraineeSubject[] | null>();
   traineesById$ = this.idDataSubject.asObservable();
 
   private subjectDataSubject = new Subject<TraineeSubject[] | null>();
   traineesBySubject$ = this.subjectDataSubject.asObservable();
 
-  setTraineesById(data: Trainee[] | null): void {
-    this.idDataSubject.next(data);
+  searchSubjectById(ids: string[] | null): void {
+    let subjects: TraineeSubject[] = [];
+    this.store.select(selectTraineeByOptions('id', ids)).subscribe(
+      (trainees: Trainee[] | null) => {
+        if (trainees && trainees.length) {
+          subjects = this.getGradesOvertimeById(trainees, ids)
+        }
+      }
+    );
+    this.idDataSubject.next(subjects)
   }
 
   searchSubjectBySubjectName(names: string[] | null): void {
@@ -40,18 +48,58 @@ export class SearchService {
   }
 
   getSubjectsByName(trainees: Trainee[], subjectNames: string[]): TraineeSubject[] {
-    const subjects: TraineeSubject[] = [];
-
+    const subjectGrades: {[key: string]: number[]} = {};
+    // Create an object where each key is a subject name, and each value is an array of grades for that subject.
     trainees.forEach(trainee => {
       trainee.subjects.forEach(subject => {
         if (subjectNames.includes(subject.name)) {
-          subjects.push({name: `${trainee.name} ${subject.name}`, value: subject.grade});
+          if (!subjectGrades[subject.name]) { // If this subject doesn't exist in the object yet, create it.
+            subjectGrades[subject.name] = [];
+          }
+          // Push the grade into the grades array for that subject.
+          subjectGrades[subject.name].push(+subject.grade);
         }
       });
     });
 
-    return subjects;
+    // Create the final result array.
+    return Object.entries(subjectGrades).map(([name, grades]) => {
+      const averageGrade = grades.reduce((a, b) => a + b, 0) / grades.length; // Calculate the average grade.
+      return {name, value: Math.round(averageGrade).toString()};
+    });
   }
+
+  getGradesOvertimeById(trainees: Trainee[], ids: string[] | null): TraineeSubject[] {
+    // If ids is not provided or is null, return an empty array.
+    if (!ids) {
+      return [];
+    }
+    const results: TraineeSubject[] = [];
+    ids.forEach(id => {
+      // Filter the trainees array to only include trainees whose id is in the id array.
+      let selectedTrainees = trainees.filter(trainee => trainee.id === id);
+
+      selectedTrainees.forEach(trainee => {
+        // Assume each subject has a grade, and the grade is a number.
+        let totalScore = 0;
+        let subjectCount = 0;
+        trainee.subjects.forEach(subject => {
+          totalScore += Number(subject.grade);
+          subjectCount++;
+        });
+        let average = totalScore / subjectCount;
+
+        // Push an object with the trainee's name and average score into the results array.
+        results.push({name: trainee.name, value: Math.round(average).toString()});
+      });
+    });
+
+    return results;
+  }
+/*  getSubjectsById(){
+    const subjects: TraineeSubject[] = [];
+
+  }*/
 
   getPrefix(str: string): string {
     let match = str.match(/^(id|grade|date)/i);
@@ -93,7 +141,8 @@ export class SearchService {
 
   createIdFilterPredicate<T>(searchKey: keyof T): (data: T, filter: string) => boolean {
     return (data: T, filter: string) => {
-      return data[searchKey] ? data[searchKey].toString().toLowerCase().includes(filter.toLowerCase()) : false;
+      return data[searchKey] ? data[searchKey].toString().toLowerCase()
+        .includes(filter.toLowerCase()) : false;
     };
   }
 

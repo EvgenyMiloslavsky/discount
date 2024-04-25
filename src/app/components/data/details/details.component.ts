@@ -45,16 +45,12 @@ export class DetailsComponent implements OnInit, OnDestroy {
     this.subscribers.push(
       this.traineeForm.valueChanges.pipe(
       tap(() => {
-        console.log("ValueChanges")
       }),
       map(() => {
-        debugger
         if (this.currentTrainee) {
           const formValue = this.traineeForm.value;
-          const isEqual = Object.keys(formValue).some(key =>
-            formValue[key].toString() === this.currentTrainee[key].toString());
-          console.log(isEqual, formValue, this.currentTrainee);
-          return isEqual
+          return Object.keys(formValue).some(key =>
+            formValue[key].toString() === this.currentTrainee[key].toString())
         } else {
           return false;
         }
@@ -79,11 +75,9 @@ export class DetailsComponent implements OnInit, OnDestroy {
       })
     ).subscribe(tr => {
 
-      console.log("Change trainee")
       if (tr) {
         // this.traineeForm.setValue({...tr});
         this.currentTrainee = {...tr};
-        console.log("===>",this.currentTrainee, this.currentTrainee);
       } else {
         this.traineeForm.reset({
           id: '',

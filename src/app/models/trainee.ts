@@ -10,5 +10,6 @@ export interface Trainee {
   subjects: [{
     name: string,
     grade: string,
+    time_over?: string
   }]
 }

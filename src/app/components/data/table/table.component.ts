@@ -89,7 +89,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
         // console.log("Grade", this.searchKey);
         break;
       case 'date':
-        debugger
         if (this.searchValue.includes("<") || this.searchValue.includes(">")) {
           const customFilterPredicate = this.searchService.createDateFilterPredicate<any>(this.searchKey);
           this.dataSource.filterPredicate = (data, filter) => customFilterPredicate(data, filter);
@@ -102,5 +101,4 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscribers.forEach(sub => sub.unsubscribe());
   }
-
 }

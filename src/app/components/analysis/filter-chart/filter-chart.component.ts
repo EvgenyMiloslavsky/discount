@@ -18,7 +18,7 @@ import {Trainee} from "../../../models/trainee";
 })
 export class FilterChartComponent implements OnInit, OnDestroy {
 
-  searchIdControl: FormControl = new FormControl();
+  searchIdControl: FormControl = new FormControl('9592396 6214697 5431799 1301038');
   searchSubjectControl: FormControl = new FormControl();
 
   constructor(
@@ -33,14 +33,24 @@ export class FilterChartComponent implements OnInit, OnDestroy {
       distinctUntilChanged(),
       switchMap(query => {
         if (query !== '') {
-          const separatedToArray = this.separateToArray(query);
-          return this.doSearchById(separatedToArray);
+          let nameArray = this.separateToArray(query);
+          let mappedArray = nameArray.map(sub => {
+            if (sub) {
+              return sub[0].toUpperCase() + sub.slice(1);
+            } else {
+              return null;
+            }
+          });
+          if (mappedArray.length === 1 && mappedArray[0] === null) {
+            return of([]);
+          }
+          return of(mappedArray.filter(item => item != null));
         } else {
-          return of(null);
+          return of([]);
         }
       })
-    ).subscribe((tr: Trainee[] | null) => {
-      this.search.setTraineesById(tr)
+    ).subscribe((idArray: string[] | null) => {
+      this.search.searchSubjectById(idArray)
     });
 
     this.searchSubjectControl.valueChanges.pipe(
@@ -72,10 +82,6 @@ export class FilterChartComponent implements OnInit, OnDestroy {
 
   doSearchById(option: string[]): Observable<Trainee[] | null> {
     return this.store.select(selectTraineeByOptions('id', option));
-  }
-
-  doSearchBySubject(option: string[]) {
-    return this.store.select(selectTraineeByOptions('subject', option));
   }
 
   ngOnDestroy(): void {

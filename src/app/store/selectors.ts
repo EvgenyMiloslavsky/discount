@@ -48,7 +48,7 @@ export const selectTraineeByOptions = (parameter: string, filterOptions: string[
       return null;
     } else if (parameter === 'id') {
       const res = state.trainees.filter(trainee =>
-        filterOptions.includes(trainee[parameter]));
+        filterOptions.includes(trainee['id']));
       return res.length !== 0 ? res : null;
     } else if (parameter === 'subject') {
       const res = state.trainees.filter(trainee =>
