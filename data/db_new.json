@@ -11,31 +11,38 @@
       "subjects": [
         {
           "name": "Math",
-          "grade": 88
+          "grade": 88,
+          "time_over": 95
         },
         {
           "name": "History",
-          "grade": 57
+          "grade": 57,
+          "time_over": 62
         },
         {
           "name": "Chemistry",
-          "grade": 46
+          "grade": 46,
+          "time_over": 50
         },
         {
           "name": "Physics",
-          "grade": 39
+          "grade": 39,
+          "time_over": 46
         },
         {
           "name": "English",
-          "grade": 75
+          "grade": 75,
+          "time_over": 81
         },
         {
           "name": "Literature",
-          "grade": 82
+          "grade": 82,
+          "time_over": 95
         },
         {
           "name": "Programming",
-          "grade": 95
+          "grade": 95,
+          "time_over": 100
         }
       ],
       "zip": 508186

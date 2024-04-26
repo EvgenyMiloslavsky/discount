@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {ChartComponent} from "../analysis/charts/chart/chart.component";
+import {ChartComponent} from "../analysis/chart/chart.component";
 
 @Component({
   selector: 'app-my-test',

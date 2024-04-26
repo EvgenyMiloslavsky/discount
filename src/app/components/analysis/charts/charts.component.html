@@ -1,19 +1,18 @@
 <div class="group">
   <div class="group-container">
     <div class="charts"
-         *ngFor="let chart of charts; trackBy:trackByFn"
+         *ngFor="let chart of charts; let i = index; trackBy:trackByFn"
+         [hidden]="i === 2"
          draggable="true"
          (dragstart)="dragStart($event, chart)"
          (dragover)="dragOver($event)"
          (drop)="drop($event, chart)">
       <div [ngSwitch]="chart.type">
         <app-chart [chartData]=chart></app-chart>
-<!--        {{chart | json}}-->
       </div>
     </div>
   </div>
   <button mat-button mat-raised-button draggable="true"
-          (dragstart)="dragStart($event, button, true)">{{button.type.toUpperCase()}}
+          (dragstart)="dragStart($event, charts[2], true)">{{charts[2].type.toUpperCase()}}
   </button>
 </div>
-<!--{{charts}}-->

@@ -3,32 +3,18 @@
     {
       "type": "chart 1",
       "description": "Grades average over time for students with ID",
-      "id": 1,
       "data": [
       ]
     },
     {
       "type": "chart 2",
+      "description": "Grades average for students with chosen ID",
+      "data": []
+    },
+    {
+      "type": "chart 3",
       "description": "Grades average per subject",
       "data": []
     }
-  ],
-  "button": {
-    "type": "chart 3",
-    "description": "Grades average for students with chosen ID",
-    "data": [
-      {
-        "name": "Data 7",
-        "value": 89
-      },
-      {
-        "name": "Data 8",
-        "value": 50
-      },
-      {
-        "name": "Data 9",
-        "value": 72
-      }
-    ]
-  }
+  ]
 }

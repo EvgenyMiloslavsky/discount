@@ -1,8 +1,8 @@
 import {Routes} from '@angular/router';
-
 export const routes: Routes = [
   {
     path: '',
+    pathMatch: 'full',
     loadComponent: () => import('./components/data/data-container/data-container.component')
       .then(m => m.DataContainerComponent)
   },

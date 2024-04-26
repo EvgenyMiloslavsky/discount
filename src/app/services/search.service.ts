@@ -17,22 +17,23 @@ export class SearchService {
   constructor(private store: Store<AppState>) {
   }
 
-  private idDataSubject = new Subject<TraineeSubject[] | null>();
+  private idDataSubject = new Subject<any[] | null>();
   traineesById$ = this.idDataSubject.asObservable();
 
   private subjectDataSubject = new Subject<TraineeSubject[] | null>();
   traineesBySubject$ = this.subjectDataSubject.asObservable();
 
   searchSubjectById(ids: string[] | null): void {
-    let subjects: TraineeSubject[] = [];
+    let subjectsForTwoChart: any[] = [];
     this.store.select(selectTraineeByOptions('id', ids)).subscribe(
       (trainees: Trainee[] | null) => {
         if (trainees && trainees.length) {
-          subjects = this.getGradesOvertimeById(trainees, ids)
+          subjectsForTwoChart.push(this.getGradesOvertimeById(trainees, ids));
+          subjectsForTwoChart.push(this.getAverageByStudents(trainees, ids));
         }
       }
     );
-    this.idDataSubject.next(subjects)
+    this.idDataSubject.next(subjectsForTwoChart)
   }
 
   searchSubjectBySubjectName(names: string[] | null): void {
@@ -48,7 +49,7 @@ export class SearchService {
   }
 
   getSubjectsByName(trainees: Trainee[], subjectNames: string[]): TraineeSubject[] {
-    const subjectGrades: {[key: string]: number[]} = {};
+    const subjectGrades: { [key: string]: number[] } = {};
     // Create an object where each key is a subject name, and each value is an array of grades for that subject.
     trainees.forEach(trainee => {
       trainee.subjects.forEach(subject => {
@@ -80,11 +81,13 @@ export class SearchService {
       let selectedTrainees = trainees.filter(trainee => trainee.id === id);
 
       selectedTrainees.forEach(trainee => {
+        debugger
         // Assume each subject has a grade, and the grade is a number.
         let totalScore = 0;
         let subjectCount = 0;
         trainee.subjects.forEach(subject => {
-          totalScore += Number(subject.grade);
+          if (subject.time_over)
+            totalScore += Number(subject.time_over);
           subjectCount++;
         });
         let average = totalScore / subjectCount;
@@ -96,10 +99,34 @@ export class SearchService {
 
     return results;
   }
-/*  getSubjectsById(){
-    const subjects: TraineeSubject[] = [];
 
-  }*/
+  getAverageByStudents(trainees: Trainee[], ids: string[] | null): TraineeSubject[] {
+    if (!ids) {
+      return [];
+    }
+
+    const results: TraineeSubject[] = [];
+
+    ids.forEach(id => {
+      const selectedTrainees = trainees.filter(trainee => trainee.id === id);
+
+      selectedTrainees.forEach(trainee => {
+        let totalScore = 0;
+        let subjectCount = 0;
+
+        trainee.subjects.forEach(subject => {
+          totalScore += Number(subject.grade);
+          subjectCount++;
+        });
+
+        const average = totalScore / subjectCount;
+
+        results.push({name: trainee.name, value: Math.round(average).toString()});
+      });
+    });
+
+    return results;
+  }
 
   getPrefix(str: string): string {
     let match = str.match(/^(id|grade|date)/i);
