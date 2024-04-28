@@ -33,8 +33,8 @@
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row
-        [class.selected]="selectedRowId == row.id"
-        (click)="clickedRow(row.id)"
+        [class.selected]="(selectedRow['id'] === row.id) && (selectedRow['subject'] === row.subject)"
+        (click)="clickedRow(row.id, row.subject)"
         *matRowDef="let row; columns: displayedColumns;"
     ></tr>
   </table>
@@ -44,3 +44,5 @@
                  aria-label="Select page">
   </mat-paginator>
 </div>
+
+<!--{{ this.dataSource.data | json}}-->

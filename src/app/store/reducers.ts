@@ -12,7 +12,7 @@ export interface TraineeState {
   loading: boolean;
   filters: StateFilter[];
   error: string;
-  selectedTraineesId: string;
+  selectedTrainee: {id:string, subject: string};
 }
 
 export const initialState: TraineeState = {
@@ -20,7 +20,7 @@ export const initialState: TraineeState = {
   loading: false,
   filters: [],
   error: '',
-  selectedTraineesId: ''
+  selectedTrainee: {id: '', subject: ''}
 };
 
 export const traineeReducer = createReducer(
@@ -32,12 +32,25 @@ export const traineeReducer = createReducer(
 
   on(TraineesAction.loadTraineesFailure, (state, {error}) => ({...state, error, loading: false})),
 
-  on(TraineesAction.setTraineeId, (state, {selectedTraineesId}) => ({...state, selectedTraineesId})),
+  on(TraineesAction.setTraineeId, (state, {selectedTraineesId, subject}) => ({...state, selectedTrainee: {id: selectedTraineesId, subject: subject}})),
 
-  on(TraineesAction.removeTrainee, (state, {id}) => ({
-    ...state,
-    trainees: state.trainees.filter(trainee => trainee.id !== id)
-  })),
+  on(TraineesAction.removeTrainee, (state, {id, subject}) => {
+    // Map over the trainees array, we will handle all the necessary modifications within this map function
+    const updatedTrainees = state.trainees.map(trainee => {
+      if (trainee.id === id) {
+        const updatedSubjects = trainee.subjects.filter(subj => subj.name !== subject);
+        // copying all existing properties of the trainee and replacing subjects with the updatedSubjects
+        return {...trainee , subjects: updatedSubjects};
+      }
+      return trainee; // If id doesn't match simply return the trainee without modification
+    });
+
+    // Filter out trainees without subjects
+    const traineesWithSubjects = updatedTrainees.filter(trainee => trainee.subjects.length > 0);
+
+    // Update the state
+    return {...state, trainees: traineesWithSubjects};
+  }),
   on(TraineesAction.addTrainee, (state, {trainee}) =>
     ({...state, trainees: [trainee, ...state.trainees]})),
   on(TraineesAction.setFilter, (state, { name, filter }) => {

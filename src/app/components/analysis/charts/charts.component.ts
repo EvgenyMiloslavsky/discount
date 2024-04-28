@@ -80,7 +80,6 @@ export class ChartsComponent implements OnInit, OnDestroy {
   }
 
   drop(event: any, targetChart: any) {
-    debugger
     event.preventDefault();
     if (this.draggedIsButton) {
       // If the dragged item is button, swap target chart with the button

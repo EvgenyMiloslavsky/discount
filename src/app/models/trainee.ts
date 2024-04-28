@@ -7,9 +7,9 @@ export interface Trainee {
   city: string,
   country: string,
   zip: string,
-  subjects: [{
+  subjects: {
     name: string,
     grade: string,
     time_over?: string
-  }]
+  }[]
 }

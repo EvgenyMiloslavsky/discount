@@ -2,13 +2,20 @@ import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/c
 import {CommonModule} from '@angular/common';
 import {MatTableDataSource, MatTableModule} from "@angular/material/table";
 import {Store} from "@ngrx/store";
-import {Trainee} from "../../../models/trainee";
 import {Subscription} from "rxjs";
 import {getFilter, selectAllTrainees} from "../../../store/selectors";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatPaginator, MatPaginatorModule} from "@angular/material/paginator";
 import {setTraineeId} from "../../../store/actions";
 import {SearchService} from "../../../services/search.service";
+
+export interface DataTable {
+  id: string;
+  name: string;
+  date_joined: string;
+  grade: string;
+  subject: string;
+}
 
 @Component({
   selector: 'app-table',
@@ -21,13 +28,13 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   subscribers: Subscription[] = [];
-  selectedRowId!: string;
+  selectedRow =  {id:'', subject: ''};
   searchKey: string = '';
   searchValue: string = '';
 
   //-- Represents an Observable that emits an array of Trainee objects.
   displayedColumns: string[] = ['id', 'name', 'date', 'grade', 'subject'];
-  dataSource: MatTableDataSource<Trainee> = new MatTableDataSource<Trainee>();
+  dataSource: MatTableDataSource<DataTable> = new MatTableDataSource<DataTable>();
 
   constructor(private store: Store, private searchService: SearchService) {
     this.subscribers.push(
@@ -51,7 +58,17 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.subscribers.push(
       this.store.select(selectAllTrainees).subscribe(
         tr => {
-          this.dataSource.data = tr;
+          this.dataSource.data = tr.flatMap(trainee =>
+            trainee.subjects.map(subject => (
+              {
+                id: trainee.id,
+                name: trainee.name,
+                date_joined: trainee.date_joined,
+                grade: subject.grade,
+                subject: subject.name
+              }
+            ))
+          );
           // this.dataSource.filter = this.searchValue.trim().toLowerCase();
         }
       ));
@@ -60,9 +77,10 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
   }
 
-  clickedRow(id: string) {
-    this.selectedRowId = id;
-    this.store.dispatch(setTraineeId({selectedTraineesId: id}));
+  clickedRow(id: string, subject: string) {
+    this.selectedRow = {id: id, subject: subject};
+    debugger
+    this.store.dispatch(setTraineeId({selectedTraineesId: id, subject: subject}));
   }
 
   ngAfterViewInit(): void {
@@ -71,7 +89,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     }, 30)
   }
 
-  filterPredicates() {
+    filterPredicates() {
     switch (this.searchKey) {
       case 'id':
         const customFilterPredicate = this.searchService.createIdFilterPredicate<any>(this.searchKey);

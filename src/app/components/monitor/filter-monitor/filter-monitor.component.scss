@@ -1,0 +1,73 @@
+.filter-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: .5rem;
+  padding: 1rem 2rem;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 5px 5px -3px, rgba(0, 0, 0, 0.14) 0px 8px 10px 1px, rgba(0, 0, 0, 0.12) 0px 3px 14px 2px;
+}
+
+.form {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &__label {
+    width: 10%;
+    min-width: 4rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+    padding-right: 1rem;
+  }
+
+  &__input {
+    height: 2rem;
+    width: 90%;
+    border: 1px solid #000;
+    border-radius: .3rem;
+    padding: 0 1rem;
+  }
+}
+
+.input-state {
+  width: 100%;
+  display: flex;
+  gap: 5rem;
+
+  &__checkbox{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    input{
+      width: 2rem;
+      height: 2rem;
+      color: red;
+    }
+
+    input:checked{
+      background-color: red !important;
+    }
+
+    label{
+      font-size: .9rem;
+      font-weight: 700;
+      text-transform: lowercase;
+    }
+  }
+}
+
+
+.checkbox:checked + .checkbox-label:after {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 2px;
+  width: 6px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+}
+

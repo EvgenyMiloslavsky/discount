@@ -4,7 +4,14 @@
     <form [formGroup]="traineeForm">
       <div class="form-field">
         <label>ID:</label>
-        <input matInput type="text" formControlName="id">
+        <div>
+          <input matInput type="text" formControlName="id">
+          <mat-error *ngIf="traineeForm.get('id').errors && traineeForm.get('id')
+        .touched">ID field is required and must be a number.
+          </mat-error>
+          <mat-error *ngIf="traineeForm.get('id').hasError('number')">
+          </mat-error>
+        </div>
       </div>
 
       <div class="form-field">
@@ -12,7 +19,7 @@
         <div>
           <input matInput type="text" formControlName="name">
           <mat-error *ngIf="traineeForm.get('name').errors && traineeForm.get('name')
-        .touched">This field is required
+        .touched">Name field is required
           </mat-error>
         </div>
       </div>
@@ -20,43 +27,84 @@
 
       <div class="form-field">
         <label>Grade:</label>
-        <input matInput type="text" formControlName="grade"></div>
+        <div>
+          <input matInput type="text" formControlName="grade">
+          <mat-error *ngIf="traineeForm.get('grade').errors && traineeForm.get('grade')
+        .touched">Grade field is required
+          </mat-error>
+        </div>
+      </div>
 
 
       <div class="form-field">
         <label>Email:</label>
-        <input matInput type="text" formControlName="email">
+        <div>
+          <input matInput type="text" formControlName="email">
+          <mat-error *ngIf="traineeForm.get('email').errors && traineeForm.get('email')
+        .touched">Name field is required
+          </mat-error>
+        </div>
       </div>
 
 
       <div class="form-field">
         <label>DateJoined:</label>
-        <input matInput type="text" formControlName="date_joined">
+        <div>
+          <input matInput type="text" formControlName="date_joined">
+          <mat-error *ngIf="traineeForm.get('date_joined').errors && traineeForm.get('date_joined')
+        .touched">Date joined field is required
+          </mat-error>
+        </div>
       </div>
 
       <div class="form-field">
         <label>Address:</label>
-        <input matInput type="text" formControlName="address">
+        <div>
+          <input matInput type="text" formControlName="address">
+          <mat-error *ngIf="traineeForm.get('address').errors && traineeForm.get('address')
+        .touched">Address field is required
+          </mat-error>
+        </div>
       </div>
 
       <div class="form-field">
         <label>City:</label>
-        <input matInput type="text" formControlName="city">
+        <div>
+          <input matInput type="text" formControlName="city">
+          <mat-error *ngIf="traineeForm.get('city').errors && traineeForm.get('city')
+        .touched">City field is required
+          </mat-error>
+        </div>
       </div>
 
       <div class="form-field">
         <label> Country:</label>
-        <input matInput type="text" formControlName="country">
+        <div>
+          <input matInput type="text" formControlName="country">
+          <mat-error *ngIf="traineeForm.get('country').errors && traineeForm.get('country')
+        .touched">Country field is required
+          </mat-error>
+        </div>
       </div>
 
       <div class="form-field">
         <label>ZIP:</label>
-        <input matInput type="text" formControlName="zip">
+        <div>
+          <input matInput type="text" formControlName="zip">
+          <mat-error *ngIf="traineeForm.get('zip').errors && traineeForm.get('zip')
+        .touched">ZIP field is required
+          </mat-error>
+        </div>
       </div>
 
       <div class="form-field">
         <label>Subject:</label>
-        <input matInput type="text" formControlName="subject">
+        <div>
+          <input matInput type="text" formControlName="subject">
+          <mat-error *ngIf="traineeForm.get('subject').errors && traineeForm.get('subject')
+        .touched">Subject field is required
+          </mat-error>
+        </div>
       </div>
     </form>
   </mat-card-content>

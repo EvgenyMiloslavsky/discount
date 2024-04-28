@@ -81,7 +81,6 @@ export class SearchService {
       let selectedTrainees = trainees.filter(trainee => trainee.id === id);
 
       selectedTrainees.forEach(trainee => {
-        debugger
         // Assume each subject has a grade, and the grade is a number.
         let totalScore = 0;
         let subjectCount = 0;
@@ -129,11 +128,15 @@ export class SearchService {
   }
 
   getPrefix(str: string): string {
-    let match = str.match(/^(id|grade|date)/i);
-    if (match) {
-      return match[0].toLowerCase();
+    if(str) {
+      let match = str.match(/^(id|grade|date)/i);
+      if (match) {
+        return match[0].toLowerCase();
+      }
+      return str;
+    }else{
+      return '';
     }
-    return str;
   }
 
   extractNumberFromString(input: string): string {
@@ -147,13 +150,11 @@ export class SearchService {
   }
 
   extractRangeFromString(input: string): string {
-    const match = input.match(/(<|>)(\d+)/g);
+    const match = input.match(/(>\d*|<\d*|\d+)/g);
     if (match) {
       return match.join(' ');
-    } else {
-      const numberMatch = input.match(/\d+/);
-      return numberMatch ? numberMatch[0] : '';
     }
+    return '';
   }
 
   extractRangeDateFromString(input: string): string {

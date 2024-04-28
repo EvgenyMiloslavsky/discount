@@ -21,18 +21,19 @@ export const getLoadingState = createSelector(
 
 export const getSelectedTrainee = createSelector(
   selectTraineeFeature,
-  (state: TraineeState) => state.trainees.find(tr => {
-    if (state && state.selectedTraineesId) {
-      return tr.id === state.selectedTraineesId
-    } else {
-      return undefined;
+  (state: TraineeState) => {
+    const trainee = state.trainees.find(tr => tr.id === state.selectedTrainee.id);
+    if(trainee){
+      return {trainee: trainee, subject: state.selectedTrainee.subject};
+    }else{
+      return null
     }
-  })
+  }
 )
 
-export const getTraineeId = createSelector(
+export const getTrainee = createSelector(
   selectTraineeFeature,
-  (state: TraineeState) => state.selectedTraineesId
+  (state: TraineeState) => state.selectedTrainee
 )
 
 /*export const getFilter = createSelector(

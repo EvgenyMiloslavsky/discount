@@ -3,12 +3,11 @@ import {CommonModule} from '@angular/common';
 import {MatButtonModule} from "@angular/material/button";
 import {Store} from "@ngrx/store";
 import {debounceTime, distinctUntilChanged, Observable, of, Subscription, switchMap} from "rxjs";
-import {getFilter, getTraineeId} from "../../../store/selectors";
+import {getFilter, getTrainee} from "../../../store/selectors";
 import {removeTrainee, setFilter, setTraineeId} from "../../../store/actions";
 import {MatDialog, MatDialogModule} from "@angular/material/dialog";
 import {TraineeDialogComponent} from "../trainee-dialog/trainee-dialog.component";
 import {TraineesAction} from "../../../store/actions-types";
-import {Trainee} from "../../../models/trainee";
 import {FormControl, ReactiveFormsModule} from "@angular/forms";
 import {SearchService} from "../../../services/search.service";
 import {TraineeService} from "../../../services/trainee.service";
@@ -25,7 +24,8 @@ export class FilterComponent implements OnInit, OnDestroy {
 
   subscription!: Subscription;
   onDisable = true
-  currentTraineeId = '';
+  currentTrainee = '';
+  currentTraineeSubject = '';
   prefixAndNumber = ''
 
 
@@ -46,12 +46,15 @@ export class FilterComponent implements OnInit, OnDestroy {
     this.viewButton$ = this.traineeService.viewButton$;
 
     this.subscribers.push(
-      this.subscription = store.select(getTraineeId).subscribe(tr => {
+      this.subscription = store.select(getTrainee).subscribe(tr => {
+        console.log("SEL", tr)
         if (tr) {
-          this.currentTraineeId = tr;
+          this.currentTrainee = tr['id'];
+          this.currentTraineeSubject = tr['subject'];
           this.onDisable = false;
         } else {
-          this.currentTraineeId = '';
+          this.currentTrainee = '';
+          this.currentTraineeSubject = '';
           this.onDisable = true;
         }
       }))
@@ -62,7 +65,7 @@ export class FilterComponent implements OnInit, OnDestroy {
       debounceTime(500),
       distinctUntilChanged(),
       switchMap(query => {
-        if (query !== '') {
+        if (query !== '' && query !== undefined) {
           return this.doSearch(query)
         } else {
           this.store.dispatch(setFilter({name: this.filterName, filter: ''}))
@@ -86,8 +89,8 @@ export class FilterComponent implements OnInit, OnDestroy {
   }
 
   traineeRemove() {
-    this.store.dispatch(removeTrainee({id: this.currentTraineeId}));
-    this.store.dispatch(setTraineeId({selectedTraineesId: ''}));
+    this.store.dispatch(removeTrainee({id: this.currentTrainee, subject: this.currentTraineeSubject}));
+    this.store.dispatch(setTraineeId({selectedTraineesId: '', subject: ''}));
   }
 
   openAddTraineeDialog(): void {
@@ -95,9 +98,17 @@ export class FilterComponent implements OnInit, OnDestroy {
       width: '30rem',
     });
 
-    dialogRef.afterClosed().subscribe((result: Trainee) => {
-      if (result)
-        this.store.dispatch(TraineesAction.addTrainee({trainee: result}));
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (result) {
+        const trainee = {
+          id: result.id, address: result.address,
+          city: result.city, zip: result.zip,
+          name: result.name, country: result.country,
+          email: result.email, date_joined: result.date_joined,
+          subjects: [{name: result.subject, grade: result.grade}]
+        };
+        this.store.dispatch(TraineesAction.addTrainee({trainee: trainee}));
+      }
     });
   }
 
@@ -121,6 +132,7 @@ export class FilterComponent implements OnInit, OnDestroy {
 
   updateDetails() {
     this.traineeService.onUpdateButton();
+    // this.store.dispatch(setTraineeId({selectedTraineesId: '', subject: ''}))
   }
 
   ngOnDestroy(): void {
