@@ -1,8 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormControl, FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {debounceTime, distinctUntilChanged, tap} from "rxjs";
+import {debounceTime, distinctUntilChanged, Observable, Subscription, switchMap, tap} from "rxjs";
 import {MonitorService} from "../../../services/monitor.service";
+import {setFilter} from "../../../store/actions";
+import {Store} from "@ngrx/store";
+import {getFilter} from "../../../store/selectors";
+import {StateFilter} from "../../../store/reducers";
 
 @Component({
   selector: 'app-filter-monitor',
@@ -14,27 +18,81 @@ import {MonitorService} from "../../../services/monitor.service";
 export class FilterMonitorComponent implements OnInit {
   idControl: FormControl = new FormControl();
   nameControl: FormControl = new FormControl();
+  filterStateId$: Observable<StateFilter>;
+  filterStateName$: Observable<StateFilter>;
 
-  constructor(private monitorService: MonitorService) {
+  subscribers: Subscription[] = [];
+
+
+  filterNameForId: string = 'monitorFilterId';
+  filterNameForName: string = 'monitorFilterName';
+
+  constructor(
+    private monitorService: MonitorService,
+    private store: Store) {
+    this.filterStateId$ = this.store.select(getFilter(this.filterNameForId));
+    this.filterStateName$ = this.store.select(getFilter(this.filterNameForName));
   }
 
   ngOnInit(): void {
+    this.subscribers.push(
+      this.filterStateId$.subscribe(
+        filterState => {
+          if (filterState) {
+            this.monitorService.setIdFilter(filterState.filter);
+            console.log(filterState)
+            this.idControl.setValue(filterState.filter);
+          }
+        }
+      ));
+
+    this.subscribers.push(
+      this.filterStateName$.subscribe(
+        filterState => {
+          if (filterState) {
+            this.monitorService.setNameFilter(filterState.filter);
+            this.nameControl.setValue(filterState.filter);
+            console.log(filterState)
+          }
+        }
+      ))
+
     this.idControl.valueChanges.pipe(
       debounceTime(500),
       distinctUntilChanged(),
       tap(id => {
-          return this.monitorService.setIdFilter(id)
+          this.monitorService.setIdFilter(id);
         }
-      )
-    ).subscribe(()=>{});
+      ),
+      switchMap(val => {
+        if (val !== '') {
+          console.log("ID control");
+          this.store.dispatch(setFilter({name: this.filterNameForId, filter: val}));
+          return val
+        } else {
+          this.store.dispatch(setFilter({name: this.filterNameForId, filter: ''}));
+          return ''
+        }
+      })
+    ).subscribe();
 
     this.nameControl.valueChanges.pipe(
       debounceTime(500),
       distinctUntilChanged(),
       tap(name =>
         this.monitorService.setNameFilter(name)
-      )
-    ).subscribe();
+      ),
+      switchMap(val => {
+        if (val !== '') {
+          console.log("Name control");
+          this.store.dispatch(setFilter({name: this.filterNameForName, filter: val}));
+          return val;
+        } else {
+          this.store.dispatch(setFilter({name: this.filterNameForName, filter: ''}));
+          return ''
+        }
+      })
+    ).subscribe()
   }
 
   onPassed(event: Event) {

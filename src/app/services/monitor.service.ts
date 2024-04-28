@@ -74,13 +74,11 @@ export class MonitorService {
 
   setCheckboxPassStatus(status: boolean) {
     this.checkboxPassStatus = status;
-    console.log(this.checkboxPassStatus);
     this.applyFilters()
   }
 
   setCheckboxFailStatus(status: boolean) {
     this.checkboxFailStatus = status;
-    console.log(this.checkboxFailStatus);
     this.applyFilters();
   }
 
@@ -112,8 +110,6 @@ export class MonitorService {
       return this.checkboxFailStatus && +item.average < 65;
 
     })
-
-    console.log("Filter", this.filteredData);
     this.filterDataSubject.next(transformedData)
   }
 
