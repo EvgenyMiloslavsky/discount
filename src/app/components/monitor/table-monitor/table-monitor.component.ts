@@ -26,6 +26,6 @@ export class TableMonitorComponent {
 
 
   setColor(row: any) {
-    return row.average > '65' ? 'green-row' : 'red-row'
+    return row.average >= '65' ? 'green-row' : 'red-row'
   }
 }

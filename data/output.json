@@ -22,17 +22,17 @@
         },
         {
           "name": "Chemistry",
-          "grade": 69,
+          "grade": 45,
           "time_over": 68
         },
         {
           "name": "Physics",
-          "grade": 76,
+          "grade": 70,
           "time_over": 80
         },
         {
           "name": "English",
-          "grade": 56,
+          "grade": 53,
           "time_over": 60
         },
         {
@@ -69,8 +69,8 @@
         },
         {
           "name": "Literature",
-          "grade": 78,
-          "time_over": 31
+          "grade": 53,
+          "time_over": 54
         },
         {
           "name": "Programming",
