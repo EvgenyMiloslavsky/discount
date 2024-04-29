@@ -24,6 +24,7 @@ export class DetailsComponent implements OnDestroy {
   subscribers: Subscription[] = [];
   originalTrainee: Trainee;
   currentTraineeSubject: string;
+  initialTraineeSubject: string;
   currentTrainee: any = null;
 
   traineeForm = this.fb.group({
@@ -65,29 +66,31 @@ export class DetailsComponent implements OnDestroy {
           return throwError(err);
         })
       ).subscribe(tr => {
-        if (tr !== null) {
-          debugger
+        if (tr && tr.subject !== null) {
+          this.initialTraineeSubject = tr.subject;
           this.originalTrainee = tr.trainee;
           this.currentTraineeSubject = tr.subject;
           // this.traineeForm.setValue({...tr});
           const trainee = tr.trainee;
           const subj = trainee.subjects
             .find(sb => sb.name === tr.subject);
+          if(subj){
           const grade = subj.grade;
-          const subjectName = this.currentTraineeSubject;
-          this.currentTrainee = {
-            id: trainee.id,
-            name: trainee.name,
-            grade: grade,
-            email: trainee.email,
-            date_joined: trainee.date_joined,
-            address: trainee.address,
-            city: trainee.city,
-            country: trainee.country,
-            zip: trainee.zip,
-            subject: subjectName
-          };
-          this.traineeForm.setValue(this.currentTrainee)
+            const subjectName = this.currentTraineeSubject;
+            this.currentTrainee = {
+              id: trainee.id,
+              name: trainee.name,
+              grade: grade,
+              email: trainee.email,
+              date_joined: trainee.date_joined,
+              address: trainee.address,
+              city: trainee.city,
+              country: trainee.country,
+              zip: trainee.zip,
+              subject: subjectName
+            };
+            this.traineeForm.setValue(this.currentTrainee)}
+
         } else {
           this.traineeForm.reset({
             id: '',
@@ -107,11 +110,10 @@ export class DetailsComponent implements OnDestroy {
 
   updateTrainee() {
     if (this.traineeForm.valid) {
-      debugger
       let {id, name, grade, email, date_joined, address, city, country, zip, subject} = this.traineeForm.value;
       const subjects = [...this.originalTrainee.subjects];
-      const subjForChange = subjects.filter(s => s.name !== this.currentTraineeSubject);
-      const newSubj = [...subjForChange, {name: subject, grade: grade,}]
+      const removeOldSubject = subjects.filter(s => s.name !== this.initialTraineeSubject);
+      const newSubj = [...removeOldSubject, {name: subject, grade: grade}]
       const newTrainee: Trainee = {id, name, email, date_joined, address, city, country, zip, subjects: newSubj};
       this.store.dispatch(updateTrainee({trainee: newTrainee, id: this.originalTrainee.id}));
       this.store.dispatch(setTraineeId({selectedTraineesId: '', subject: ''}))

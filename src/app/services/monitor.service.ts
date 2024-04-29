@@ -103,7 +103,6 @@ export class MonitorService {
 
 
     transformedData = transformedData.filter(item => {
-      debugger
       if (this.checkboxPassStatus && +item.average >= 65) {
         return true
       }

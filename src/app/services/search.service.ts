@@ -157,7 +157,14 @@ export class SearchService {
     return '';
   }
 
-  extractRangeDateFromString(input: string): string {
+  extractRangeDateFromString(input: string): string | null {
+    const operators = ['<', '>'];
+    for (let op of operators){
+      if (input.includes(`date${op}`)){
+        return op;
+      }
+    }
+
     if (!input.includes('<') && !input.includes('>')) {
       const match = input.match(/(\d{2}\/\d{2}\/\d{4})|(\d{2}\/\d{2}\/\d{2})|(\d+\/)|(\d+)/g);
       if (match) {
@@ -168,12 +175,13 @@ export class SearchService {
       }
     } else {
       const filter = input.split(':')[1];
-      if (filter.startsWith && (filter.startsWith('>') || filter.startsWith('<'))) {
+      if (filter && (filter.startsWith('>') || filter.startsWith('<'))) {
         const stringWithoutSpaces = filter.replace(/\s+/g, '');
         if (stringWithoutSpaces[11] === '>' || stringWithoutSpaces[11] === '<') {
-          const firstValue = stringWithoutSpaces.substring(0, 11);
-          const secondValue = stringWithoutSpaces.substring(11);
-          return `${firstValue} ${secondValue}`;
+/*          const firstValue = stringWithoutSpaces.substring(0, 11);
+          const secondValue = stringWithoutSpaces.substring(11);*/
+          // If you don't want to return anything, you can either remove the return
+          // statement or return a different value per your needs.
         }
       }
     }
@@ -227,8 +235,8 @@ export class SearchService {
       let lower: number = -Infinity;
       let upper: number = Infinity;
 
-      const rangeMatch = filter.match(/^<(\d{2}\/\d{2}\/\d{4}) >(\d{2}\/\d{2}\/\d{4})$/);
-      const singleMatch = filter.match(/(\>|<)(\d{2}\/\d{2}\/\d{4})$/);
+      const rangeMatch = filter.match(/^\s*>(\d{2}\/\d{2}\/\d{4})\s+<(\d{2}\/\d{2}\/\d{4})\s*$/);
+      const singleMatch = filter.match(/(\>|<)(\d{2}\/\d{2}\/\d{4})\s*$/);
 
       if (rangeMatch) {
         lower = Date.parse(rangeMatch[1].split('/').reverse().join('-'));
@@ -248,5 +256,4 @@ export class SearchService {
       const value = Date.parse((data[searchKey as keyof T] as unknown as string).split('/').reverse().join('-'));
       return value >= lower && value <= upper;
     };
-  }
-}
+  }}

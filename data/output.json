@@ -3,13 +3,11 @@
     {
       "id": "9592396",
       "name": "Lukas",
-      "grade": 88,
       "email": "lcourt0@sphinn.com",
       "date_joined": "13/01/2024",
       "address": "73 Fieldstone Drive",
       "city": "Whakatane",
       "country": "New Zealand",
-      "subject": "Math",
       "zip": 508186,
       "subjects": [
         {
@@ -47,13 +45,11 @@
     {
       "id": "0285564",
       "name": "Shannon",
-      "grade": 57,
       "email": "soteague1@1688.com",
       "date_joined": "28/11/2023",
       "address": "2606 Coleman Point",
       "city": "Lindavista",
       "country": "Mexico",
-      "subject": "History",
       "zip": 521784,
       "subjects": [
         {
@@ -86,13 +82,11 @@
     {
       "id": "5431799",
       "name": "Camila",
-      "grade": 15,
       "email": "cbirkwood2@booking.com",
       "date_joined": "23/12/2023",
       "address": "0291 Hovde Alley",
       "city": "Vahdat",
       "country": "Tajikistan",
-      "subject": "Biology",
       "zip": 689174,
       "subjects": [
         {
@@ -120,13 +114,11 @@
     {
       "id": "1301038",
       "name": "Sherline",
-      "grade": 46,
       "email": "slonghirst3@google.com.au",
       "date_joined": "26/01/2024",
       "address": "43 Esker Junction",
       "city": "Grubišno Polje",
       "country": "Croatia",
-      "subject": "Chemistry",
       "zip": 900400,
       "subjects": [
         {
@@ -159,13 +151,11 @@
     {
       "id": "6214697",
       "name": "Meriel",
-      "grade": 39,
       "email": "mhabben4@instagram.com",
       "date_joined": "17/12/2023",
       "address": "8 Prairie Rose Street",
       "city": "Cabusao",
       "country": "Philippines",
-      "subject": "Physics",
       "zip": 411277,
       "subjects": [
         {
@@ -208,13 +198,11 @@
     {
       "id": "7162000",
       "name": "Bernie",
-      "grade": 9,
       "email": "bsamsonsen5@dropbox.com",
       "date_joined": "23/06/2023",
       "address": "36554 Hansons Lane",
       "city": "Boulder",
       "country": "United States",
-      "subject": "Literature",
       "zip": 382042,
       "subjects": [
         {
@@ -257,13 +245,11 @@
     {
       "id": "6727599",
       "name": "Asher",
-      "grade": 41,
       "email": "astrickler6@smh.com.au",
       "date_joined": "15/05/2023",
       "address": "5 Clove Place",
       "city": "Skellefteå",
       "country": "Sweden",
-      "subject": "Math",
       "zip": 714538,
       "subjects": [
         {
@@ -306,13 +292,11 @@
     {
       "id": "4802026",
       "name": "Juliette",
-      "grade": 44,
       "email": "jsantello7@squarespace.com",
       "date_joined": "05/07/2023",
       "address": "7 Packers Drive",
       "city": "Ipoh",
       "country": "Malaysia",
-      "subject": "History",
       "zip": 859477,
       "subjects": [
         {
@@ -355,13 +339,11 @@
     {
       "id": "1220341",
       "name": "Vonnie",
-      "grade": 20,
       "email": "vivachyov8@bigcartel.com",
       "date_joined": "10/02/2024",
       "address": "206 Kings Junction",
       "city": "Siemiatycze",
       "country": "Poland",
-      "subject": "Biology",
       "zip": 920286,
       "subjects": [
         {
@@ -404,13 +386,11 @@
     {
       "id": "9066821",
       "name": "Isabelle",
-      "grade": 44,
       "email": "iraithby9@springer.com",
       "date_joined": "18/11/2023",
       "address": "11590 Mccormick Street",
       "city": "Sorang",
       "country": "Kazakhstan",
-      "subject": "Chemistry",
       "zip": 742201,
       "subjects": [
         {
@@ -453,13 +433,11 @@
     {
       "id": "1896695",
       "name": "Karlie",
-      "grade": 11,
       "email": "kferrellia@ustream.tv",
       "date_joined": "19/06/2023",
       "address": "5086 4th Parkway",
       "city": "Dobrljin",
       "country": "Bosnia and Herzegovina",
-      "subject": "Physics",
       "zip": 413945,
       "subjects": [
         {
@@ -502,13 +480,11 @@
     {
       "id": "8795640",
       "name": "Ellswerth",
-      "grade": 19,
       "email": "erahillb@hexun.com",
       "date_joined": "01/08/2023",
       "address": "4295 Graceland Park",
       "city": "Aguilar",
       "country": "Philippines",
-      "subject": "Literature",
       "zip": 246083,
       "subjects": [
         {
@@ -551,13 +527,11 @@
     {
       "id": "1753517",
       "name": "Ingaborg",
-      "grade": 43,
       "email": "istothardc@technorati.com",
       "date_joined": "04/05/2023",
       "address": "4 Myrtle Pass",
       "city": "Ostojićevo",
       "country": "Serbia",
-      "subject": "Math",
       "zip": 409328,
       "subjects": [
         {
@@ -600,13 +574,11 @@
     {
       "id": "5118957",
       "name": "Marijo",
-      "grade": 35,
       "email": "mschankelborgd@163.com",
       "date_joined": "18/06/2023",
       "address": "18 Steensland Junction",
       "city": "Huangcun",
       "country": "China",
-      "subject": "History",
       "zip": 421732,
       "subjects": [
         {
@@ -649,13 +621,11 @@
     {
       "id": "8242517",
       "name": "Archibald",
-      "grade": 58,
       "email": "afermore@walmart.com",
       "date_joined": "22/09/2023",
       "address": "291 Packers Alley",
       "city": "Tushi",
       "country": "China",
-      "subject": "Biology",
       "zip": 918904,
       "subjects": [
         {
@@ -698,13 +668,11 @@
     {
       "id": "7721186",
       "name": "Marcela",
-      "grade": 97,
       "email": "mmendozaf@smh.com.au",
       "date_joined": "28/04/2023",
       "address": "5 Basil Street",
       "city": "Colima",
       "country": "Costa Rica",
-      "subject": "Chemistry",
       "zip": 636573,
       "subjects": [
         {
@@ -747,13 +715,11 @@
     {
       "id": "0785854",
       "name": "Quincey",
-      "grade": 3,
       "email": "qsangwineg@weibo.com",
       "date_joined": "11/03/2024",
       "address": "4 Bartelt Drive",
       "city": "Qiandian",
       "country": "China",
-      "subject": "Physics",
       "zip": 289391,
       "subjects": [
         {
@@ -796,13 +762,11 @@
     {
       "id": "6275133",
       "name": "Lona",
-      "grade": 93,
       "email": "lfaireyh@google.es",
       "date_joined": "07/02/2024",
       "address": "242 Debra Point",
       "city": "Los Santos",
       "country": "Panama",
-      "subject": "Literature",
       "zip": 871079,
       "subjects": [
         {
@@ -845,13 +809,11 @@
     {
       "id": "2182955",
       "name": "Leandra",
-      "grade": 84,
       "email": "llovicki@etsy.com",
       "date_joined": "15/04/2024",
       "address": "369 Sundown Avenue",
       "city": "Stockholm",
       "country": "Sweden",
-      "subject": "Math",
       "zip": 575140,
       "subjects": [
         {
@@ -883,24 +845,17 @@
           "name": "Literature",
           "grade": 13,
           "time_over": 59
-        },
-        {
-          "name": "Programming",
-          "grade": 38,
-          "time_over": 18
         }
       ]
     },
     {
       "id": "5010629",
       "name": "Stanislaus",
-      "grade": 11,
       "email": "ssetchfieldj@boston.com",
       "date_joined": "29/12/2023",
       "address": "331 Dexter Way",
       "city": "Panganiban",
       "country": "Philippines",
-      "subject": "History",
       "zip": 791050,
       "subjects": [
         {
@@ -943,13 +898,11 @@
     {
       "id": "6772968",
       "name": "Peta",
-      "grade": 98,
       "email": "pmuntk@nyu.edu",
       "date_joined": "11/02/2024",
       "address": "5 Graceland Park",
       "city": "Pakemitan",
       "country": "Indonesia",
-      "subject": "Biology",
       "zip": 301749,
       "subjects": [
         {
@@ -992,13 +945,11 @@
     {
       "id": "5414532",
       "name": "Tallie",
-      "grade": 53,
       "email": "tbignalll@friendfeed.com",
       "date_joined": "23/05/2023",
       "address": "9 Mifflin Terrace",
       "city": "Masoyila",
       "country": "Sierra Leone",
-      "subject": "Chemistry",
       "zip": 936707,
       "subjects": [
         {
@@ -1041,13 +992,11 @@
     {
       "id": "0803033",
       "name": "Gilligan",
-      "grade": 39,
       "email": "gewensm@ehow.com",
       "date_joined": "27/06/2023",
       "address": "91540 Sachtjen Place",
       "city": "Yandun",
       "country": "China",
-      "subject": "Physics",
       "zip": 257906,
       "subjects": [
         {
@@ -1090,13 +1039,11 @@
     {
       "id": "0524392",
       "name": "Peri",
-      "grade": 36,
       "email": "pcuradon@barnesandnoble.com",
       "date_joined": "04/02/2024",
       "address": "5618 Arkansas Pass",
       "city": "Heřmanova Huť",
       "country": "Czech Republic",
-      "subject": "Literature",
       "zip": 478228,
       "subjects": [
         {
@@ -1139,13 +1086,11 @@
     {
       "id": "5654391",
       "name": "Padget",
-      "grade": 20,
       "email": "pauldso@go.com",
       "date_joined": "02/06/2023",
       "address": "30 6th Alley",
       "city": "Zhulebino",
       "country": "Russia",
-      "subject": "Math",
       "zip": 424307,
       "subjects": [
         {
@@ -1188,13 +1133,11 @@
     {
       "id": "6545296",
       "name": "Hilarius",
-      "grade": 81,
       "email": "hvinap@istockphoto.com",
       "date_joined": "25/11/2023",
       "address": "975 Union Street",
       "city": "Vojkovice",
       "country": "Czech Republic",
-      "subject": "History",
       "zip": 828953,
       "subjects": [
         {
@@ -1237,13 +1180,11 @@
     {
       "id": "2137211",
       "name": "Irv",
-      "grade": 20,
       "email": "ijanceyq@cocolog-nifty.com",
       "date_joined": "11/04/2024",
       "address": "72 Porter Parkway",
       "city": "Delft",
       "country": "Netherlands",
-      "subject": "Biology",
       "zip": 881973,
       "subjects": [
         {
@@ -1286,13 +1227,11 @@
     {
       "id": "1990813",
       "name": "Marc",
-      "grade": 92,
       "email": "mwalpoler@slate.com",
       "date_joined": "07/12/2023",
       "address": "6 Eliot Hill",
       "city": "Ol’ginskaya",
       "country": "Russia",
-      "subject": "Chemistry",
       "zip": 448874,
       "subjects": [
         {
@@ -1335,13 +1274,11 @@
     {
       "id": "7236208",
       "name": "Karleen",
-      "grade": 73,
       "email": "kwyres@printfriendly.com",
       "date_joined": "26/09/2023",
       "address": "5 La Follette Trail",
       "city": "Huanggang",
       "country": "China",
-      "subject": "Physics",
       "zip": 560849,
       "subjects": [
         {
@@ -1384,13 +1321,11 @@
     {
       "id": "8547757",
       "name": "Shep",
-      "grade": 2,
       "email": "spizziet@globo.com",
       "date_joined": "19/10/2023",
       "address": "753 Delladonna Hill",
       "city": "Glubokiy",
       "country": "Russia",
-      "subject": "Literature",
       "zip": 806772,
       "subjects": [
         {

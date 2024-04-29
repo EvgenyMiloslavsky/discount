@@ -106,7 +106,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
         break;
       case 'date':
         if (this.searchValue.includes("<") || this.searchValue.includes(">")) {
-          console.log(this.searchValue)
           const customFilterPredicate = this.searchService.createDateFilterPredicate<any>(this.searchKey.concat('_joined'));
           this.dataSource.filterPredicate = (data, filter) => customFilterPredicate(data, filter);
         } else {
