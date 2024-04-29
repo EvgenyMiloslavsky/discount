@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MatButtonModule} from "@angular/material/button";
 import {Store} from "@ngrx/store";
@@ -20,7 +20,7 @@ import {StateFilter} from "../../../store/reducers";
   templateUrl: './filter.component.html',
   styleUrls: ['./filter.component.scss']
 })
-export class FilterComponent implements OnInit, OnDestroy {
+export class FilterComponent implements OnDestroy {
 
   subscription!: Subscription;
   onDisable = true
@@ -47,7 +47,6 @@ export class FilterComponent implements OnInit, OnDestroy {
 
     this.subscribers.push(
       this.subscription = store.select(getTrainee).subscribe(tr => {
-        console.log("SEL", tr)
         if (tr) {
           this.currentTrainee = tr['id'];
           this.currentTraineeSubject = tr['subject'];
@@ -75,9 +74,6 @@ export class FilterComponent implements OnInit, OnDestroy {
     ).subscribe(() => {
     });
 
-  }
-
-  ngOnInit(): void {
     this.subscribers.push(
       this.filter$.subscribe(
         filterState => {

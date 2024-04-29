@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, OnDestroy, ViewEncapsulation} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatCardModule} from "@angular/material/card";
@@ -19,7 +19,7 @@ import {getSelectedTrainee} from "../../../store/selectors";
   styleUrls: ['./details.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class DetailsComponent implements OnInit, OnDestroy {
+export class DetailsComponent implements OnDestroy {
 
   subscribers: Subscription[] = [];
   originalTrainee: Trainee;
@@ -65,10 +65,8 @@ export class DetailsComponent implements OnInit, OnDestroy {
           return throwError(err);
         })
       ).subscribe(tr => {
-        console.log("********", tr)
         if (tr !== null) {
           debugger
-          console.log("======>", tr)
           this.originalTrainee = tr.trainee;
           this.currentTraineeSubject = tr.subject;
           // this.traineeForm.setValue({...tr});
@@ -89,7 +87,6 @@ export class DetailsComponent implements OnInit, OnDestroy {
             zip: trainee.zip,
             subject: subjectName
           };
-
           this.traineeForm.setValue(this.currentTrainee)
         } else {
           this.traineeForm.reset({
@@ -106,10 +103,6 @@ export class DetailsComponent implements OnInit, OnDestroy {
           });
         }
       }))
-  }
-
-  ngOnInit() {
-
   }
 
   updateTrainee() {

@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MatButtonModule} from "@angular/material/button";
 import {FormControl, ReactiveFormsModule} from "@angular/forms";
@@ -17,7 +17,7 @@ import {setFilter} from "../../../store/actions";
   templateUrl: './filter-chart.component.html',
   styleUrls: ['./filter-chart.component.scss']
 })
-export class FilterChartComponent implements OnInit, OnDestroy {
+export class FilterChartComponent implements OnDestroy {
 
   searchIdControl: FormControl = new FormControl('9592396 6214697 5431799 1301038');
   searchSubjectControl: FormControl = new FormControl();
@@ -27,15 +27,14 @@ export class FilterChartComponent implements OnInit, OnDestroy {
   filterNameForId = 'analysisFilterId';
   filterNameForSubj = 'analysisFilterSubj';
 
+
   constructor(
     private store: Store,
     private search: SearchService,
   ) {
     this.filterStateId$ = this.store.select(getFilter(this.filterNameForId));
     this.filterStateSubj$ = this.store.select(getFilter(this.filterNameForSubj));
-  }
 
-  ngOnInit() {
     this.subscribers.push(
       this.filterStateId$.subscribe(
         filterState => {
@@ -110,10 +109,6 @@ export class FilterChartComponent implements OnInit, OnDestroy {
       this.search.searchSubjectBySubjectName(nameArray);
     })
   }
-
-  /*doSearchById(option: string[]): Observable<Trainee[] | null> {
-    return this.store.select(selectTraineeByOptions('id', option));
-  }*/
 
   private separateToArray(query: string): string[] {
     return query.split(/[\s,]+/);

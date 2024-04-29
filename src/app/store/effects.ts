@@ -13,7 +13,6 @@ export class TraineeEffects {
       ofType(TraineesAction.loadTrainees),
       mergeMap(() =>
         this.traineeService.fetchData().pipe(
-          // tap(console.log),
           map((trainees: Trainee[]) => TraineesAction.loadTraineesSuccess({trainees})),
           catchError((error) =>
             of(TraineesAction.loadTraineesFailure({error: error.message}))

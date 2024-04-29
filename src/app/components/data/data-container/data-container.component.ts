@@ -18,7 +18,6 @@ import {FilterComponent} from "../filter/filter.component";
 export class DataContainerComponent{
 
   isLoaded$!: Observable<Trainee[]>;
-  // isLoaded: boolean = false;
 
   constructor(private store: Store) {
     this.isLoaded$ = this.store.select(selectAllTrainees)

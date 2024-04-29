@@ -28,7 +28,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   subscribers: Subscription[] = [];
-  selectedRow =  {id:'', subject: ''};
+  selectedRow = {id: '', subject: ''};
   searchKey: string = '';
   searchValue: string = '';
 
@@ -36,7 +36,10 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   displayedColumns: string[] = ['id', 'name', 'date', 'grade', 'subject'];
   dataSource: MatTableDataSource<DataTable> = new MatTableDataSource<DataTable>();
 
-  constructor(private store: Store, private searchService: SearchService) {
+  constructor(
+    private store: Store,
+    private searchService: SearchService
+    ) {
     this.subscribers.push(
       this.store.select(getFilter('dataFilter')).subscribe(fi => {
         if (fi && fi.filter !== '') {
@@ -45,8 +48,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
           this.searchValue = value;
           if (this.searchValue) {
             this.filterPredicates();
-            this.dataSource.filter = this.searchValue.trim().toLowerCase();
-            console.log("SER", this.searchValue)
+              this.dataSource.filter = this.searchValue;
           } else {
             this.dataSource.filter = "";
           }
@@ -79,21 +81,19 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   clickedRow(id: string, subject: string) {
     this.selectedRow = {id: id, subject: subject};
-    debugger
     this.store.dispatch(setTraineeId({selectedTraineesId: id, subject: subject}));
   }
 
   ngAfterViewInit(): void {
-    setTimeout(() => {
       this.dataSource.paginator = this.paginator;
-    }, 30)
   }
 
-    filterPredicates() {
+  filterPredicates() {
     switch (this.searchKey) {
-      case 'id':
+      case 'id': {
         const customFilterPredicate = this.searchService.createIdFilterPredicate<any>(this.searchKey);
         this.dataSource.filterPredicate = (data, filter) => customFilterPredicate(data, filter);
+      }
         break;
       case 'grade':
         if ((this.searchValue.replace(/\D/g, '')) === this.searchValue) {
@@ -106,9 +106,12 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
         break;
       case 'date':
         if (this.searchValue.includes("<") || this.searchValue.includes(">")) {
-          const customFilterPredicate = this.searchService.createDateFilterPredicate<any>(this.searchKey);
+          console.log(this.searchValue)
+          const customFilterPredicate = this.searchService.createDateFilterPredicate<any>(this.searchKey.concat('_joined'));
           this.dataSource.filterPredicate = (data, filter) => customFilterPredicate(data, filter);
-          // console.log("Date", this.searchKey);
+        } else {
+          const customFilterPredicate = this.searchService.createIdFilterPredicate<any>(this.searchKey.concat('_joined'));
+          this.dataSource.filterPredicate = (data, filter) => customFilterPredicate(data, filter);
         }
         break;
     }

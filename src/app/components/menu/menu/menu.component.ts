@@ -11,5 +11,4 @@ import {RouterLink, RouterLinkActive} from "@angular/router";
   styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent{
-  selectedButton = 'Data';
 }

@@ -40,7 +40,6 @@ export class FilterMonitorComponent implements OnInit {
         filterState => {
           if (filterState) {
             this.monitorService.setIdFilter(filterState.filter);
-            console.log(filterState)
             this.idControl.setValue(filterState.filter);
           }
         }
@@ -52,7 +51,6 @@ export class FilterMonitorComponent implements OnInit {
           if (filterState) {
             this.monitorService.setNameFilter(filterState.filter);
             this.nameControl.setValue(filterState.filter);
-            console.log(filterState)
           }
         }
       ))
@@ -66,7 +64,6 @@ export class FilterMonitorComponent implements OnInit {
       ),
       switchMap(val => {
         if (val !== '') {
-          console.log("ID control");
           this.store.dispatch(setFilter({name: this.filterNameForId, filter: val}));
           return val
         } else {
@@ -84,7 +81,6 @@ export class FilterMonitorComponent implements OnInit {
       ),
       switchMap(val => {
         if (val !== '') {
-          console.log("Name control");
           this.store.dispatch(setFilter({name: this.filterNameForName, filter: val}));
           return val;
         } else {

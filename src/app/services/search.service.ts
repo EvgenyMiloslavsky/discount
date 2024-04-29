@@ -128,13 +128,13 @@ export class SearchService {
   }
 
   getPrefix(str: string): string {
-    if(str) {
+    if (str) {
       let match = str.match(/^(id|grade|date)/i);
       if (match) {
         return match[0].toLowerCase();
       }
       return str;
-    }else{
+    } else {
       return '';
     }
   }
@@ -158,13 +158,45 @@ export class SearchService {
   }
 
   extractRangeDateFromString(input: string): string {
-    const match = input.match(/(\d{1,2}\/\d{1,2}(\/\d{2,4})?)|(\d+)/g);
-    if (match) {
-      return match.join(' ');
+    if (!input.includes('<') && !input.includes('>')) {
+      const match = input.match(/(\d{2}\/\d{2}\/\d{4})|(\d{2}\/\d{2}\/\d{2})|(\d+\/)|(\d+)/g);
+      if (match) {
+        return match.join('');
+      } else {
+        const numberMatch = input.match(/\d+/);
+        return numberMatch ? numberMatch[0] : '';
+      }
     } else {
-      const numberMatch = input.match(/\d+/);
-      return numberMatch ? numberMatch[0] : '';
+      const filter = input.split(':')[1];
+      if (filter.startsWith('>') || filter.startsWith('<')) {
+        const stringWithoutSpaces = filter.replace(/\s+/g, '');
+        if (stringWithoutSpaces[11] === '>' || stringWithoutSpaces[11] === '<') {
+          const firstValue = stringWithoutSpaces.substring(0, 11);
+          const secondValue = stringWithoutSpaces.substring(11);
+          return `${firstValue} ${secondValue}`;
+        }
+      }
     }
+    return input.split(':')[1];
+  }
+
+  parseDate(input: string): Date | false {
+    // Check if the string matches the format ##/##/####
+    const regexPattern = /^\d{2}\/\d{2}\/\d{4}$/;
+    if (!regexPattern.test(input)) {
+      return false;
+    }
+
+    // Parse the string to a date
+    const date = new Date(input);
+
+    // Check if the date is invalid (Invalid dates are represented as "Invalid Date" in JavaScript, which is a NaN time)
+    if (isNaN(date.getTime())) {
+      return false;
+    }
+
+    // The string is in the correct format and can be interpreted as a valid date
+    return date;
   }
 
   createIdFilterPredicate<T>(searchKey: keyof T): (data: T, filter: string) => boolean {
@@ -191,9 +223,22 @@ export class SearchService {
   }
 
   createDateFilterPredicate<T>(searchKey: keyof T): (data: T, filter: string) => boolean {
-    return (data: T, filter: string) => {
-      const value = String(data[searchKey]);
-      return value.startsWith(filter);
+    return (data: T, filter: string): boolean => {
+      const dateMatch = filter.match(/^<(\d{2}\/\d{2}\/\d{4}) >(\d{2}\/\d{2}\/\d{4})$/);
+
+      let lower: number = -Infinity;
+      let upper: number = Infinity;
+
+      if (dateMatch) {
+        lower = Date.parse(dateMatch[1].split('/').reverse().join('-'));
+        upper = Date.parse(dateMatch[2].split('/').reverse().join('-'));
+        if (lower > upper) {
+          // swap lower and upper
+          [lower, upper] = [upper, lower];
+        }
+      }
+
+      const value = Date.parse((data[searchKey as keyof T] as unknown as string).split('/').reverse().join('-'));
+      return value >= lower && value <= upper;
     };
-  }
-}
+  }}

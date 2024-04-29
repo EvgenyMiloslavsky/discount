@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnDestroy} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {DragDropModule} from "@angular/cdk/drag-drop";
 import {ChartComponent} from "../chart/chart.component";
@@ -19,7 +19,7 @@ import chartsFromJson from "../../../../assets/chartData.json";
   templateUrl: './charts.component.html',
   styleUrls: ['./charts.component.scss']
 })
-export class ChartsComponent implements OnInit, OnDestroy {
+export class ChartsComponent implements OnDestroy {
 
   charts = chartsFromJson.charts;
   button = this.charts.find(chart => chart.type === 'chart 3')
@@ -36,14 +36,11 @@ export class ChartsComponent implements OnInit, OnDestroy {
   ) {
     this.traineeById$ = this.searchService.traineesById$;
     this.traineeBySubject$ = this.searchService.traineesBySubject$;
-  }
 
-  public ngOnInit(): void {
     this.subscribers.push(
       this.traineeById$.subscribe(chartData => {
         const chartObjectForChar1 = this.charts.find(chart => chart.type === 'chart 1');
         const chartObjectForChar2 = this.charts.find(chart => chart.type === 'chart 2');
-        console.log("Charts", this.charts)
         if (chartObjectForChar1) {
           chartObjectForChar1.data = chartData[0];
           this.cdr.detectChanges();
