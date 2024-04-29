@@ -36,11 +36,6 @@ export const getTrainee = createSelector(
   (state: TraineeState) => state.selectedTrainee
 )
 
-/*export const getFilter = createSelector(
-  selectTraineeFeature,
-  (state: TraineeState) => state.filter
-)*/
-
 export const getFilter = (filterType: string) => createSelector(
   selectTraineeFeature,
   (state: TraineeState) => {

@@ -19,7 +19,7 @@ import {setFilter} from "../../../store/actions";
 })
 export class FilterChartComponent implements OnDestroy {
 
-  searchIdControl: FormControl = new FormControl('9592396 6214697 5431799 1301038');
+  searchIdControl: FormControl = new FormControl('');
   searchSubjectControl: FormControl = new FormControl();
   filterStateId$: Observable<StateFilter>;
   filterStateSubj$: Observable<StateFilter>;

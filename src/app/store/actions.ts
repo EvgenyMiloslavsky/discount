@@ -12,7 +12,3 @@ export const removeTrainee = createAction('[Trainee] Remove Trainee', props<{ id
 export const addTrainee = createAction('[Trainee] Add Trainee', props<{ trainee: Trainee }>());
 export const setFilter = createAction('[Filter] Set Filter', props<{ name: string, filter: string }>());
 export const updateTrainee = createAction('[Trainee] Update Trainee', props<{ trainee: Trainee, id: string }>());
-/*export const getTrainee = createAction('[Trainee] Get Trainees by Id or Subject', props<{
-  id: string,
-  subject: string
-}>());*/
