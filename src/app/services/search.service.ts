@@ -168,7 +168,7 @@ export class SearchService {
       }
     } else {
       const filter = input.split(':')[1];
-      if (filter.startsWith('>') || filter.startsWith('<')) {
+      if (filter.startsWith && (filter.startsWith('>') || filter.startsWith('<'))) {
         const stringWithoutSpaces = filter.replace(/\s+/g, '');
         if (stringWithoutSpaces[11] === '>' || stringWithoutSpaces[11] === '<') {
           const firstValue = stringWithoutSpaces.substring(0, 11);
@@ -224,21 +224,29 @@ export class SearchService {
 
   createDateFilterPredicate<T>(searchKey: keyof T): (data: T, filter: string) => boolean {
     return (data: T, filter: string): boolean => {
-      const dateMatch = filter.match(/^<(\d{2}\/\d{2}\/\d{4}) >(\d{2}\/\d{2}\/\d{4})$/);
-
       let lower: number = -Infinity;
       let upper: number = Infinity;
 
-      if (dateMatch) {
-        lower = Date.parse(dateMatch[1].split('/').reverse().join('-'));
-        upper = Date.parse(dateMatch[2].split('/').reverse().join('-'));
+      const rangeMatch = filter.match(/^<(\d{2}\/\d{2}\/\d{4}) >(\d{2}\/\d{2}\/\d{4})$/);
+      const singleMatch = filter.match(/(\>|<)(\d{2}\/\d{2}\/\d{4})$/);
+
+      if (rangeMatch) {
+        lower = Date.parse(rangeMatch[1].split('/').reverse().join('-'));
+        upper = Date.parse(rangeMatch[2].split('/').reverse().join('-'));
+
         if (lower > upper) {
-          // swap lower and upper
           [lower, upper] = [upper, lower];
+        }
+      } else if (singleMatch) {
+        if (singleMatch[1] === ">") {
+          lower = Date.parse(singleMatch[2].split('/').reverse().join('-'));
+        } else if (singleMatch[1] === "<") {
+          upper = Date.parse(singleMatch[2].split('/').reverse().join('-'));
         }
       }
 
       const value = Date.parse((data[searchKey as keyof T] as unknown as string).split('/').reverse().join('-'));
       return value >= lower && value <= upper;
     };
-  }}
+  }
+}
