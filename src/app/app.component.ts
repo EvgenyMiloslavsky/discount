@@ -26,7 +26,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.traineeService.fetchData().subscribe();
+    // this.traineeService.fetchData().subscribe();
     this.onLoad$ = this.store.select(getLoadingState)
   }
 

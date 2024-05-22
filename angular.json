@@ -24,6 +24,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": ["rfdc"],
             "outputPath": "dist/discount",
             "index": "src/index.html",
             "main": "src/main.ts",
