@@ -8,7 +8,7 @@ import {catchError, distinctUntilChanged, Subscription, throwError} from "rxjs";
 import {Store} from "@ngrx/store";
 import {Trainee} from "../../../models/trainee";
 import {TraineeService} from "../../../services/trainee.service";
-import {setTraineeId, updateTrainee} from "../../../store/actions";
+import {updateTrainee} from "../../../store/actions";
 import {getSelectedTrainee} from "../../../store/selectors";
 
 @Component({
@@ -116,10 +116,10 @@ export class DetailsComponent implements OnDestroy {
       const newSubj = [...removeOldSubject, {name: subject, grade: grade}]
       const newTrainee: Trainee = {id, name, email, date_joined, address, city, country, zip, subjects: newSubj};
       this.store.dispatch(updateTrainee({trainee: newTrainee, id: this.originalTrainee.id}));
-      this.store.dispatch(setTraineeId({selectedTraineesId: '', subject: ''}))
+      // this.store.dispatch(setTraineeId({selectedTraineesId: '', subject: ''}))
       this.traineeService.onViewButton(false);
       this.originalTrainee = newTrainee;
-      this.traineeForm.reset();
+      // this.traineeForm.reset();
     } else {
       this.traineeForm.markAllAsTouched();
     }
