@@ -14,7 +14,13 @@ import {getSelectedTrainee} from "../../../store/selectors";
 @Component({
   selector: 'app-details',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatCardModule, MatInputModule, MatButtonModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatCardModule,
+    MatInputModule,
+    MatButtonModule
+  ],
   templateUrl: './details.component.html',
   styleUrls: ['./details.component.scss'],
   encapsulation: ViewEncapsulation.None
